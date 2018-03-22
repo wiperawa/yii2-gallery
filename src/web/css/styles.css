@@ -1,9 +1,9 @@
-.dvizh-gallery {
+.deadly299-gallery {
     list-style-type: none;
     margin-left: -45px;
 }
 
-.dvizh-gallery-item {
+.deadly299-gallery-item {
     list-style: none;
     float: left;
     overflow: hidden;
@@ -13,11 +13,11 @@
     position: relative;
 }
 
-.dvizh-gallery .main {
+.deadly299-gallery .main {
     border: 2px solid red;
 }
 
-.dvizh-gallery-item a.crop {
+.deadly299-gallery-item a.crop {
     position: absolute;
     left: 25px;
     top: 0px;
@@ -25,14 +25,14 @@
     text-shadow: 1px 1px 4px black;
 }
 
-.dvizh-gallery-item a.delete {
+.deadly299-gallery-item a.delete {
     position: absolute;
     right: 1px;
     top: 0px;
     color: red;
 }
 
-.dvizh-gallery-item a.write {
+.deadly299-gallery-item a.write {
     position: absolute;
     top: 0px;
     color: green;

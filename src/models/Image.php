@@ -1,11 +1,11 @@
 <?php
-namespace dvizh\gallery\models;
+namespace deadly299\gallery\models;
 
 use Yii;
 use yii\base\Exception;
 use yii\helpers\Url;
 use yii\helpers\BaseFileHelper;
-use dvizh\gallery\ModuleTrait;
+use deadly299\gallery\ModuleTrait;
 
 class Image extends \yii\db\ActiveRecord
 {

@@ -1,5 +1,5 @@
 <?php
-namespace dvizh\gallery\models;
+namespace deadly299\gallery\models;
 
 use Yii;
 

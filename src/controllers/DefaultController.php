@@ -1,12 +1,12 @@
 <?php
-namespace dvizh\gallery\controllers;
+namespace deadly299\gallery\controllers;
 
 use yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
-use dvizh\gallery\models\Image;
+use deadly299\gallery\models\Image;
 
 class DefaultController extends Controller
 {

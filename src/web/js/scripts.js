@@ -1,17 +1,17 @@
-if (typeof dvizh == "undefined" || !dvizh) {
-    var dvizh = {};
+if (!!!Deadly299) {
+    var Deadly299 = {};
 }
 
-dvizh.gallery = {
+Deadly299.gallery = {
     init: function () {
-        $('.dvizh-gallery-item a.delete').on('click', this.deleteProductImage);
-        $('.dvizh-gallery-item a.write').on('click', this.callModal);
-        $('.dvizh-gallery img').on('click', this.setMainProductImage);
+        $('.deadly299-gallery-item a.delete').on('click', this.deleteProductImage);
+        $('.deadly299-gallery-item a.write').on('click', this.callModal);
+        $('.deadly299-gallery img').on('click', this.setMainProductImage);
         $('.noctua-gallery-form').on('submit', this.writeProductImage);
     },
     setMainProductImage: function () {
-        dvizh.gallery._sendData($(this).data('action'), $(this).parents('li').data());
-        $('.dvizh-gallery > li').removeClass('main');
+        deadly299.gallery._sendData($(this).data('action'), $(this).parents('li').data());
+        $('.deadly299-gallery > li').removeClass('main');
         $(this).parents('li').addClass('main');
         return false;
     },
@@ -43,7 +43,7 @@ dvizh.gallery = {
         var modalContainer = $('#noctua-gallery-modal');
         var url = $(this).data('action');
         modalContainer.modal({show: true});
-        data = $(this).parents('.dvizh-gallery-item').data();
+        data = $(this).parents('.deadly299-gallery-item').data();
         $.ajax({
             url: url,
             type: "POST",
@@ -55,8 +55,8 @@ dvizh.gallery = {
     },
     deleteProductImage: function () {
         if (confirm('realy?')) {
-            dvizh.gallery._sendData($(this).data('action'), $(this).parents('.dvizh-gallery-item').data());
-            $(this).parents('.dvizh-gallery-item').hide('slow');
+            Deadly299.gallery._sendData($(this).data('action'), $(this).parents('.deadly299-gallery-item').data());
+            $(this).parents('.deadly299-gallery-item').hide('slow');
         }
         return false;
     },
@@ -77,11 +77,10 @@ dvizh.gallery = {
     }
 };
 
-dvizh.gallery.init();
-if (!!!deadly299) {
-    var deadly299 = {};
-}
-deadly299.images = {
+Deadly299.gallery.init();
+
+
+Deadly299.frontendGallery = {
     maxFileSize: 5 * 1024 * 1024,
     blockPreview: '.block-preview',
     galleryPreview: '.gallery-preview',
@@ -98,13 +97,15 @@ deadly299.images = {
 
 
     init: function () {
-        $(document).on('click', deadly299.images.addFile, this.openProvider);
-        $(document).on('change', deadly299.images.fileInput, this.parseFiles);
-        $(document).on('click', deadly299.images.removeFile, this.deleteFile);
+        FrontendGallery = Deadly299.frontendGallery;
+
+        $(document).on('click', FrontendGallery.addFile, this.openProvider);
+        $(document).on('change', FrontendGallery.fileInput, this.parseFiles);
+        $(document).on('click', FrontendGallery.removeFile, this.deleteFile);
         $('.gallary-upload-images').parents('form').on('beforeSubmit', this.validate);
-        $(document).on('click', deadly299.images.showModalCropIcon, this.showModalCrop);
-        $(document).on('click', deadly299.images.sendCropImage, this.cropImage);
-        $(document).on('click', deadly299.images.rotateImageBtn, this.rotateImage);
+        $(document).on('click', FrontendGallery.showModalCropIcon, this.showModalCrop);
+        $(document).on('click', FrontendGallery.sendCropImage, this.cropImage);
+        $(document).on('click', FrontendGallery.rotateImageBtn, this.rotateImage);
     },
     rotateImage: function () {
         var self = this,
@@ -200,9 +201,9 @@ deadly299.images = {
             url: url,
             success: function (responce) {
                 if (responce) {
-                    $(deadly299.images.modalCrop).html(responce);
+                    $(FrontendGallery.modalCrop).html(responce);
                     $('#deadly299-gallery-modal').modal('show');
-                    deadly299.images.setCordsImageInInputs();
+                    FrontendGallery.setCordsImageInInputs();
                 }
             }
         });
@@ -232,7 +233,7 @@ deadly299.images = {
     deleteFile: function () {
         var self = this,
             block = $(self).parents('.gallery-preview'),
-            input = $(block).find(deadly299.images.fileInput),
+            input = $(block).find(FrontendGallery.fileInput),
             controlPanel = $(block).find('.gallery-control-panel'),
             imageId = $(self).data('image-id'),
             url = $(self).data('action'),
@@ -241,7 +242,7 @@ deadly299.images = {
             dataSort = String($(block).data('sort'));
 
         if (confirmation === true) {
-            if ($(block).data('role') === deadly299.images.statusDownloaded) {
+            if ($(block).data('role') === FrontendGallery.statusDownloaded) {
                 $.post({
                     url: url,
                     data: {id: imageId},
@@ -264,7 +265,7 @@ deadly299.images = {
             $(input).replaceWith(input.val('').clone(true));
 
 
-            deadly299.images.sorting();
+            FrontendGallery.sorting();
         }
     },
     openProvider: function () {
@@ -287,21 +288,21 @@ deadly299.images = {
                 continue;
             }
 
-            if (file.size > deadly299.images.maxFileSize) {
+            if (file.size > FrontendGallery.maxFileSize) {
                 alert('Размер фотографии не должен превышать 2 Мб');
                 file.value = '';
                 continue;
             }
 
-            deadly299.images.createPreview(file, self);
+            FrontendGallery.createPreview(file, self);
         }
-        deadly299.images.sorting();
+        FrontendGallery.sorting();
     },
     createPreview: function (file, self) {
 
         var reader = new FileReader();
         var block = $(self).parents('.gallery-preview');
-        var glyphicon = $(block).find(deadly299.images.spanAdd);
+        var glyphicon = $(block).find(FrontendGallery.spanAdd);
         var preloader = $('.gallary-upload-images').data('preloader');
         var dataSort = String($(block).data('sort')).slice(1);
 
@@ -327,7 +328,7 @@ deadly299.images = {
                 '<div class="col-sm-4 gallery-control-panel">' +
                 '   <a><i class="fa fa-times gallery-icon-remove" data-role="file-remove"></i><a/>' +
                 '</div>');
-            deadly299.images.hideErrorMessage(block);
+            FrontendGallery.hideErrorMessage(block);
 
         };
         reader.readAsDataURL(file);
@@ -374,7 +375,7 @@ deadly299.images = {
             // };
 
 
-            image.src = deadly299.images.parceImgInPreview(this);
+            image.src = FrontendGallery.parceImgInPreview(this);
 
         });
     },
@@ -385,7 +386,7 @@ deadly299.images = {
             var self = this,
                 fileValue = $(self).find('[data-role=gallery-file-input]').val();
             if (fileValue == '' && $(self).data('required') == 1) {
-                deadly299.images.getErrorMessage(self);
+                FrontendGallery.getErrorMessage(self);
                 success = false;
             }
         });
@@ -404,5 +405,5 @@ deadly299.images = {
     }
 };
 
-deadly299.images.preloaderStart();
-deadly299.images.init();
+Deadly299.frontendGallery.preloaderStart();
+Deadly299.frontendGallery.init();

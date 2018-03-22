@@ -1,15 +1,15 @@
 <?php
-namespace dvizh\gallery\behaviors;
+namespace deadly299\gallery\behaviors;
 
 use yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
-use dvizh\gallery\models;
+use deadly299\gallery\models;
 use yii\helpers\BaseFileHelper;
-use dvizh\gallery\ModuleTrait;
-use dvizh\gallery\models\Image;
-use dvizh\gallery\models\PlaceHolder;
+use deadly299\gallery\ModuleTrait;
+use deadly299\gallery\models\Image;
+use deadly299\gallery\models\PlaceHolder;
 
 class AttachImages extends Behavior
 {
@@ -150,7 +150,7 @@ class AttachImages extends Behavior
         }
         $img = $this->owner->getImage($this->galleryId);
 
-        if (is_object($img) && get_class($img) == 'dvizh\gallery\models\PlaceHolder' or $img == null or $isMain) {
+        if (is_object($img) && get_class($img) == 'deadly299\gallery\models\PlaceHolder' or $img == null or $isMain) {
             $this->setMainImage($image);
         }
 

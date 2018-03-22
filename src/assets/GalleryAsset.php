@@ -1,5 +1,5 @@
 <?php
-namespace dvizh\gallery\assets;
+namespace deadly299\gallery\assets;
 
 use yii\web\AssetBundle;
 

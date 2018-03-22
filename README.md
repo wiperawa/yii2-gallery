@@ -7,13 +7,13 @@ Yii2-gallery
 Выполнить команду
 
 ```
-php composer require dvizh/yii2-gallery "@dev"
+php composer require deadly299/yii2-gallery "@dev"
 ```
 
 Или добавить в composer.json
 
 ```
-"dvizh/yii2-gallery": "@dev",
+"deadly299/yii2-gallery": "@dev",
 ```
 
 И выполнить
@@ -25,7 +25,7 @@ php composer update
 Миграция
 
 ```
-php yii migrate/up --migrationPath=@vendor/dvizh/yii2-gallery/src/migrations
+php yii migrate/up --migrationPath=@vendor/deadly299/yii2-gallery/src/migrations
 ```
 
 Подключение и настройка
@@ -34,7 +34,7 @@ php yii migrate/up --migrationPath=@vendor/dvizh/yii2-gallery/src/migrations
 ```php
     'modules' => [
         'gallery' => [
-            'class' => 'dvizh\gallery\Module',
+            'class' => 'deadly299\gallery\Module',
             'imagesStorePath' => dirname(dirname(__DIR__)).'/frontend/web/images/store', //path to origin images
             'imagesCachePath' => dirname(dirname(__DIR__)).'/frontend/web/images/cache', //path to resized copies
             'graphicsLibrary' => 'GD',
@@ -52,7 +52,7 @@ php yii migrate/up --migrationPath=@vendor/dvizh/yii2-gallery/src/migrations
     {
         return [
             'images' => [
-                'class' => 'dvizh\gallery\behaviors\AttachImages',
+                'class' => 'deadly299\gallery\behaviors\AttachImages',
                 'mode' => 'gallery',
                 'quality' => 60,
                 'galleryId' => 'picture'
@@ -109,7 +109,7 @@ fileInputPluginOptions => массив свойств виджета [kartik/fil
 для формы.
 
 ```php
-<?=\dvizh\gallery\widgets\Gallery::widget(
+<?=\deadly299\gallery\widgets\Gallery::widget(
     [
         'model' => $model,
         'previewSize' => '50x50',

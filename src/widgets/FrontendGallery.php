@@ -1,12 +1,12 @@
 <?php
 
-namespace dvizh\gallery\widgets;
+namespace deadly299\gallery\widgets;
 
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use dvizh\gallery\assets\GalleryAsset;
+use deadly299\gallery\assets\GalleryAsset;
 
 class FrontendGallery extends \yii\base\Widget
 {

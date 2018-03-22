@@ -1,9 +1,9 @@
 <?php
-namespace dvizh\gallery;
+namespace deadly299\gallery;
 
 use Yii;
-use dvizh\gallery\models\PlaceHolder;
-use dvizh\gallery\models\Image;
+use deadly299\gallery\models\PlaceHolder;
+use deadly299\gallery\models\Image;
 
 class Module extends \yii\base\Module
 {

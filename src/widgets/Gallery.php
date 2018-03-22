@@ -1,5 +1,5 @@
 <?php
-namespace dvizh\gallery\widgets;
+namespace deadly299\gallery\widgets;
 
 use yii;
 use yii\helpers\Html;
@@ -25,7 +25,7 @@ class Gallery extends \yii\base\Widget
             echo $this->render('modal');
         });
 
-        \dvizh\gallery\assets\GalleryAsset::register($this->getView());
+        \deadly299\gallery\assets\GalleryAsset::register($this->getView());
     }
 
     public function run()
@@ -55,7 +55,7 @@ class Gallery extends \yii\base\Widget
                     'item' => function($item) {
                         return $this->row($item);
                     },
-                    'class' => 'dvizh-gallery'
+                    'class' => 'deadly299-gallery'
                 ]);
         }
         $modal = Html::tag('div', null, ['data-role' => 'modal-crop']);
@@ -66,11 +66,11 @@ class Gallery extends \yii\base\Widget
 
     private function row($image)
     {
-        if($image instanceof \dvizh\gallery\models\PlaceHolder) {
+        if($image instanceof \deadly299\gallery\models\PlaceHolder) {
             return '';
         }
 
-        $class = ' dvizh-gallery-row';
+        $class = ' deadly299-gallery-row';
 
         if($image->isMain) {
             $class .= ' main';
@@ -100,7 +100,7 @@ class Gallery extends \yii\base\Widget
         $model = $this->model;
 
         return  [
-            'class' => 'dvizh-gallery-item',
+            'class' => 'deadly299-gallery-item',
             'data-model' => $model::className(),
             'data-id' => $model->id,
             'data-image' => $id

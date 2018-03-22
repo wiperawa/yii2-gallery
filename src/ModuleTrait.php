@@ -1,5 +1,5 @@
 <?php
-namespace dvizh\gallery;
+namespace deadly299\gallery;
 
 
 use yii\base\Exception;

@@ -2,7 +2,7 @@
     "name": "deadly299/yii2-gallery",
     "description": "Модуль позволяет загружать виджетом картинки",
     "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "deadly299"],
-    "homepage": "https://github.com/dvizh/yii2-gallery",
+    "homepage": "https://github.com/deadly299/yii2-gallery",
     "type": "yii2-extension",
     "license": "Apache-2.0",
     "support": {
@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "dvizh\\gallery\\": "src\\"
+            "deadly299\\gallery\\": "src\\"
         }
     }
 }

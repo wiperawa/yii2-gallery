@@ -1,9 +1,9 @@
 <?php
-namespace dvizh\gallery\controllers;
+namespace deadly299\gallery\controllers;
 
 use yii;
 use yii\web\Controller;
-use dvizh\gallery\ModuleTrait;
+use deadly299\gallery\ModuleTrait;
 
 class ImagesController extends Controller
 {
