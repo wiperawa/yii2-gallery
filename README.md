@@ -117,4 +117,18 @@ fileInputPluginOptions => массив свойств виджета [kartik/fil
         'fileInputPluginOptions' => []
     ]
 ); ?>
+
+<?= \deadly299\gallery\widgets\FrontendGallery::widget([
+    'model' => $model,
+    'countInput' => 2,
+    'classBlockRight' => 'col-sm-12',
+    'previewWidth' => '200px',
+    'previewHeight' => '150px',
+    'informationBlock' => false,
+    'otherInputsSettings' => [
+        'you-photo' => ['label' => 'Ваше фото', 'required' => true],
+        'our-work' => ['label' => 'Наша работа', 'required' => true],
+    ],
+]) ?>
+
 ```
