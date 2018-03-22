@@ -1,17 +1,17 @@
 {
-    "name": "dvizh/yii2-gallery",
+    "name": "deadly299/yii2-gallery",
     "description": "Модуль позволяет загружать виджетом картинки",
-    "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "dvizh"],
+    "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "deadly299"],
     "homepage": "https://github.com/dvizh/yii2-gallery",
     "type": "yii2-extension",
     "license": "Apache-2.0",
     "support": {
-        "source": "https://github.com/dvizh/yii2-gallery"
+        "source": "https://github.com/deadly299/yii2-gallery"
     },
     "authors": [
         {
-            "name": "Ilya Pistol",
-            "email": "admin@nethammer.ru"
+            "name": "Pavel Archenkov",
+            "email": "Deadly299@gmail.com"
         }
     ],
     "minimum-stability": "dev",
