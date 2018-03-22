@@ -5,16 +5,20 @@ use yii\web\AssetBundle;
 
 class GalleryAsset extends AssetBundle
 {
+    //public $baseUrl = '/images';
+
     public $depends = [
         'yii\web\JqueryAsset',
     ];
     
     public $js = [
         'js/scripts.js',
+        'js/jquery.imgareaselect.js',
     ];
 
     public $css = [
         'css/styles.css',
+        'css/imgareaselect-default.css',
     ];
     
     public function init()

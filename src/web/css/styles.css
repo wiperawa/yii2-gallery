@@ -1,9 +1,9 @@
 .dvizh-gallery {
-    list-style-type:none; 
+    list-style-type: none;
     margin-left: -45px;
 }
 
-.dvizh-gallery-item{
+.dvizh-gallery-item {
     list-style: none;
     float: left;
     overflow: hidden;
@@ -17,6 +17,14 @@
     border: 2px solid red;
 }
 
+.dvizh-gallery-item a.crop {
+    position: absolute;
+    left: 25px;
+    top: 0px;
+    color: #ffffffd4;
+    text-shadow: 1px 1px 4px black;
+}
+
 .dvizh-gallery-item a.delete {
     position: absolute;
     right: 1px;
@@ -28,5 +36,170 @@
     position: absolute;
     top: 0px;
     color: green;
-    text-shadow: 1px 1px 4px black ;
+    text-shadow: 1px 1px 4px black;
+}
+
+/*gallary*/
+
+.block-preview > .empty {
+    background-color: #e6e6e6;
+    background-size: cover;
+}
+
+.block-preview > .gallery-preview {
+    border: 1px dashed #9c9595;
+    border-radius: 5%;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+
+}
+
+.block-preview > .loading {
+    background-position: center;
+    z-index: 1;
+}
+
+.loading {
+    background-image: url("../images/preloader-2.gif") !important;
+}
+
+.loading-crop {
+    background: url(../images/preloader-2.gif) no-repeat 100% 100%;
+    height: 160px;
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    bottom: 156%;
+    left: 25%;
+}
+
+.loading > span {
+    display: none;
+}
+
+.gallery-preview:hover {
+    cursor: pointer;
+}
+
+.gallery-preview:hover .gallery-icon-remove,
+.gallery-preview:hover .gallery-icon-expand,
+.gallery-preview:hover .gallery-icon-crop {
+    display: block !important;
+}
+
+.gallery-span-add {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+    color: white;
+    background: #1b91a0;
+    padding: 8px;
+    border-radius: 50%;
+    padding-left: 9px;
+    padding-bottom: 8px;
+
+}
+
+.gallery-control-panel {
+    left: 100% !important;
+    z-index: 999;
+}
+
+.gallery-control-panel i::before {
+    margin-left: 2px;
+}
+
+.gallery-icon-remove, .gallery-icon-expand, .gallery-icon-crop {
+    z-index: 998;
+    color: #000000;
+    padding: 0px;
+    margin-bottom: 10px;
+    font-size: 16px !important;
+    display: none !important;
+}
+
+.crop-tools {
+    margin-top: 5px;
+}
+
+.gallary-upload-images {
+    margin-top: 15px;
+}
+
+.gallary-upload-images p {
+    font-size: 12px;
+}
+
+.gallary-upload-images input[type="file"] {
+    overflow: hidden;
+    z-index: -1;
+    opacity: 0;
+    top: -10px;
+    left: 307px;
+    display: inline-block;
+    height: 0px;
+    width: 0px;
+}
+
+.jcrop-keymgr {
+    display: none;
+}
+
+div.suggest.error {
+    background-color: #ec3a3aba !important;
+    color: #fff !important;
+    padding-left: 10px;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    padding-top: 10px;
+    margin: 10px 0 0;
+}
+
+.block-crop-lib .imgareaselect-outer {
+    z-index: 1051!important;
+}
+
+.crop .glyphicon-retweet:hover {
+    cursor: pointer;
+}
+
+div.suggest {
+    /*padding: 8px 10px 8px 40px;*/
+    background: #f1f5fc;
+    top: -3px;
+    left: 100%;
+    width: 244px;
+    min-height: 20px;
+    margin-left: 20px;
+    z-index: 2;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: absolute;
+}
+
+div.label-fg.label-txt {
+    color: #2b2b2b !important;
+    top: 75%;
+    width: 100%;
+    left: 0;
+    margin: 10px 0 0;
+    text-align: center;
+
+}
+
+div.label-fg {
+    background: #5bc6e6b3;
+    margin-left: 20px;
+    z-index: 2;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: absolute;
 }

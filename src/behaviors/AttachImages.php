@@ -14,7 +14,7 @@ use dvizh\gallery\models\PlaceHolder;
 class AttachImages extends Behavior
 {
     use ModuleTrait;
-    
+
     public $createAliasMethod = false;
     public $modelClass = null;
     public $uploadsPath = '';
@@ -24,7 +24,9 @@ class AttachImages extends Behavior
     public $inputName = 'galleryFiles';
     private $doResetImages = true;
     public $quality = false;
-    public $galleryId = null;
+    public $galleryId = false;
+
+    const STATUS_SUCCESS = 0;
 
     public function init()
     {
@@ -48,10 +50,11 @@ class AttachImages extends Behavior
         ];
     }
 
-    private static function resizePhoto($path, $tmp_name, $quality){
+    private static function resizePhoto($path, $tmp_name, $quality)
+    {
         $type = pathinfo($path, PATHINFO_EXTENSION);
 
-        switch($type){
+        switch ($type) {
             case 'jpeg':
             case 'jpg': {
                 $source = imagecreatefromjpeg($tmp_name);
@@ -61,7 +64,7 @@ class AttachImages extends Behavior
             case 'png': {
                 $source = imagecreatefrompng($tmp_name);
                 imagesavealpha($source, true);
-                $quality = (int) (100 - $quality) / 10 - 1;
+                $quality = (int)(100 - $quality) / 10 - 1;
                 $result = imagepng($source, $path, $quality);
                 break;
 
@@ -72,7 +75,8 @@ class AttachImages extends Behavior
                 break;
             }
 
-            default: return false;
+            default:
+                return false;
         }
 
         imagedestroy($source);
@@ -82,19 +86,19 @@ class AttachImages extends Behavior
 
     public function attachImage($absolutePath, $isMain = false)
     {
-        if(!preg_match('#http#', $absolutePath)){
+        if (!preg_match('#http#', $absolutePath)) {
             if (!file_exists($absolutePath)) {
-                throw new \Exception('File not exist! :'.$absolutePath);
+                throw new \Exception('File not exist! :' . $absolutePath);
             }
         }
-        
+
         if (!$this->owner->id) {
             throw new \Exception('Owner must have id when you attach image!');
         }
 
         $pictureFileName =
             substr(md5(microtime(true)
-            . $absolutePath), 4, 6)
+                . $absolutePath), 4, 6)
             . '.'
             . pathinfo($absolutePath, PATHINFO_EXTENSION);
 
@@ -109,29 +113,32 @@ class AttachImages extends Behavior
 
         BaseFileHelper::createDirectory($storePath . DIRECTORY_SEPARATOR . $pictureSubDir, 0775, true);
 
-        if ( $this->quality !== false){
+        if ($this->quality !== false) {
             self::resizePhoto($newAbsolutePath, $absolutePath, $this->quality);
         } else {
             copy($absolutePath, $newAbsolutePath);
         }
-        
+
         if (!file_exists($absolutePath)) {
             throw new \Exception('Cant copy file! ' . $absolutePath . ' to ' . $newAbsolutePath);
         }
 
-        if($this->modelClass === null) {
+        unlink($absolutePath);
+
+        if ($this->modelClass === null) {
             $image = new models\Image;
-        }else{
+        } else {
             $image = new ${$this->modelClass}();
         }
+        if($this->galleryId === false) $galleryId = null; else $galleryId = $this->galleryId;
 
         $image->itemId = $this->owner->id;
         $image->filePath = $pictureSubDir . '/' . $pictureFileName;
         $image->modelName = $this->getModule()->getShortClass($this->owner);
         $image->urlAlias = $this->getAlias($image);
-        $image->gallery_id = $this->galleryId;
+        $image->gallery_id = $galleryId;
 
-        if(!$image->save()){
+        if (!$image->save()) {
             return false;
         }
 
@@ -141,15 +148,15 @@ class AttachImages extends Behavior
             unlink($newAbsolutePath);
             throw new \Exception(array_shift($ar));
         }
-        $img = $this->owner->getImage();
+        $img = $this->owner->getImage($this->galleryId);
 
-        if ( is_object($img) && get_class($img)=='dvizh\gallery\models\PlaceHolder' or $img == null or $isMain) {
+        if (is_object($img) && get_class($img) == 'dvizh\gallery\models\PlaceHolder' or $img == null or $isMain) {
             $this->setMainImage($image);
         }
 
         return $image;
     }
-    
+
     public function setMainImage($img)
     {
         if ($this->owner->id != $img->itemId) {
@@ -177,7 +184,7 @@ class AttachImages extends Behavior
 
         $this->owner->clearImagesCache();
     }
-    
+
     public function clearImagesCache()
     {
         $cachePath = $this->getModule()->getCachePath();
@@ -193,27 +200,30 @@ class AttachImages extends Behavior
         }
     }
 
-    public function getImages()
+    public function getImages($galleryId = false)
     {
+        $this->galleryId = $galleryId;
         $finder = $this->getImagesFinder();
+
         $imageQuery = Image::find()->where($finder);
-        $imageQuery->orderBy(['isMain' => SORT_DESC,'sort' => SORT_DESC, 'id' => SORT_ASC]);
+        $imageQuery->orderBy(['isMain' => SORT_DESC, 'sort' => SORT_DESC, 'id' => SORT_ASC]);
         $imageRecords = $imageQuery->all();
-        if(!$imageRecords){
+        if (!$imageRecords) {
             return [$this->getModule()->getPlaceHolder()];
         }
 
         return $imageRecords;
     }
 
-    public function getImage()
+    public function getImage($galleryId = false)
     {
+        $this->galleryId = $galleryId;
         $finder = $this->getImagesFinder();
         $imageQuery = Image::find()->where($finder);
-        $imageQuery->orderBy(['isMain' => SORT_DESC,'sort' => SORT_DESC, 'id' => SORT_ASC]);
+        $imageQuery->orderBy(['isMain' => SORT_DESC, 'sort' => SORT_DESC, 'id' => SORT_ASC]);
         $img = $imageQuery->one();
 
-        if(!$img){
+        if (!$img) {
             return $this->getModule()->getPlaceHolder();
         }
 
@@ -234,7 +244,7 @@ class AttachImages extends Behavior
         $imageQuery->orderBy(['isMain' => SORT_DESC, 'id' => SORT_ASC]);
         $img = $imageQuery->one();
 
-        if(!$img){
+        if (!$img) {
             return $this->getModule()->getPlaceHolder();
         }
 
@@ -253,7 +263,7 @@ class AttachImages extends Behavior
             }
         }
     }
-    
+
     public function removeImage(Image $img)
     {
         $img->clearCache();
@@ -273,8 +283,11 @@ class AttachImages extends Behavior
         $base = [
             'itemId' => $this->owner->id,
             'modelName' => $this->getModule()->getShortClass($this->owner),
-			'gallery_id' => $this->galleryId
         ];
+
+        if ($this->galleryId !== false) {
+            $base = \yii\helpers\BaseArrayHelper::merge($base, ['gallery_id' => $this->galleryId]);
+        }
 
         if ($additionWhere) {
             $base = \yii\helpers\BaseArrayHelper::merge($base, $additionWhere);
@@ -305,7 +318,7 @@ class AttachImages extends Behavior
 
         return $aliasWords . '-' . intval($imagesCount + 1);
     }
-    
+
     public function getGalleryMode()
     {
         return $this->mode;
@@ -315,23 +328,24 @@ class AttachImages extends Behavior
     {
         return $this->inputName;
     }
-    
+
     public function setImages($event)
     {
+
         $userImages = UploadedFile::getInstancesByName($this->getInputName());
 
         if ($userImages && $this->doResetImages) {
             foreach ($userImages as $file) {
-                if(in_array(strtolower($file->extension), $this->allowExtensions)) {
+                if (in_array(strtolower($file->extension), $this->allowExtensions)) {
 
-                    if (!file_exists($this->uploadsPath)){
+                    if (!file_exists($this->uploadsPath)) {
                         mkdir($this->uploadsPath, 0777, true);
                     }
-                    
+
                     $file->saveAs("{$this->uploadsPath}/{$file->baseName}.{$file->extension}");
 
-                    if($this->owner->getGalleryMode() == 'single') {
-                        foreach($this->owner->getImages() as $image) {
+                    if ($this->owner->getGalleryMode() == 'single') {
+                        foreach ($this->owner->getImages() as $image) {
                             $image->delete();
                         }
                     }
@@ -343,11 +357,44 @@ class AttachImages extends Behavior
             $this->doResetImages = false;
         }
 
+        $this->setOtherFiles();
+
+
         return $this;
     }
 
-    public function hasImage()
+    public function setOtherFiles()
     {
-        return ($this->getImage() instanceof PlaceHolder) ? false : true;
+        $files = $_FILES;
+
+        if ($files && $this->doResetImages) {
+            foreach ($files as $name => $file) {
+                if($file['error'] === self::STATUS_SUCCESS) {
+                    $file = UploadedFile::getInstanceByName($name);
+
+                    if (in_array(strtolower($file->extension), $this->allowExtensions)) {
+
+                        if (!file_exists($this->uploadsPath)) {
+                            mkdir($this->uploadsPath, 0777, true);
+                        }
+
+                        $this->galleryId = str_replace('gallery-file-input-', "", $name);
+
+                        if(is_numeric($this->galleryId)) {
+                            $this->galleryId = null;
+                        }
+
+                        $file->saveAs("{$this->uploadsPath}/{$file->baseName}.{$file->extension}");
+                        $this->attachImage("{$this->uploadsPath}/{$file->baseName}.{$file->extension}");
+                    }
+                }
+            }
+            $this->doResetImages = false;
+        }
+    }
+
+    public function hasImage($gallaryId = false)
+    {
+        return ($this->getImage($gallaryId) instanceof PlaceHolder) ? false : true;
     }
 }

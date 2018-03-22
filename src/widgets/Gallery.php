@@ -58,8 +58,10 @@ class Gallery extends \yii\base\Widget
                     'class' => 'dvizh-gallery'
                 ]);
         }
+        $modal = Html::tag('div', null, ['data-role' => 'modal-crop']);
+        $blockCropLib = Html::tag('div', null, ['class' => 'block-crop-lib']);
 
-        return Html::tag( 'div', $label . $cart . '<br style="clear: both;" />' . $this->getFileInput() );
+        return Html::tag( 'div', $label . $cart . $blockCropLib . '<br style="clear: both;" />' . $this->getFileInput() . $modal);
     }
 
     private function row($image)
@@ -110,10 +112,22 @@ class Gallery extends \yii\base\Widget
         $size = (explode('x', $this->previewSize));
 
         $delete = Html::a('✖', '#', ['data-action' => Url::toRoute(['/gallery/default/delete', 'id' => $image->id]), 'class' => 'delete']);
+        $crop = Html::a($this->getParamsIconCrop($image->id), false, ['class' => 'crop']);
         $write = Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', '#', ['data-action' => Url::toRoute(['/gallery/default/modal', 'id' => $image->id]), 'class' => 'write']);
         $img = Html::img($image->getUrl($this->previewSize), ['data-action' => Url::toRoute(['/gallery/default/setmain', 'id' => $image->id]), 'width' => $size[0], 'height' => $size[1], 'class' => 'thumb']);
         $a = Html::a($img, $image->getUrl());
 
-        return $delete.$write.$a;
+        return $delete.$crop.$write.$a;
+    }
+
+    private function getParamsIconCrop($id)
+    {
+        $params = [
+            'class' => 'glyphicon glyphicon-retweet',
+            'data-role' => 'show-modal-crop-icon',
+            'data-action' => Url::to(['gallery/default/crop-modal', 'id' => $id]),
+        ];
+
+        return Html::tag('span', null, $params);
     }
 }
