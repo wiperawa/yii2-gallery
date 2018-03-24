@@ -375,7 +375,7 @@ Deadly299.frontendGallery = {
             // };
 
 
-            image.src = FrontendGallery.parceImgInPreview(this);
+            image.src = Deadly299.frontendGallery.parceImgInPreview(this);
 
         });
     },
