@@ -368,6 +368,11 @@ class AttachImages extends Behavior
         $files = $_FILES;
 
         if ($files && $this->doResetImages) {
+            if($ownerIid = (int)Yii::$app->request->post('owner_id')) {
+                if($ownerIid !== $this->owner->id) {
+                    return false;
+                }
+            }
             foreach ($files as $name => $file) {
                 if($file['error'] === self::STATUS_SUCCESS) {
                     $file = UploadedFile::getInstanceByName($name);
