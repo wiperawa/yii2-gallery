@@ -282,7 +282,7 @@ Deadly299.frontendGallery = {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
 
-            if (!file.type.match(/image\/(jpeg|jpg|png|gif|icon)/)) {
+            if (!file.type.match(/image\/(jpeg|jpg|png|gif|vnd.microsoft.icon)/)) {
                 alert('Фотография должна быть в формате jpg, png или gif');
                 file.value = '';
                 continue;
