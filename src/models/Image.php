@@ -1,11 +1,11 @@
 <?php
-namespace deadly299\gallery\models;
+namespace wiperawa\gallery\models;
 
 use Yii;
 use yii\base\Exception;
 use yii\helpers\Url;
 use yii\helpers\BaseFileHelper;
-use deadly299\gallery\ModuleTrait;
+use wiperawa\gallery\ModuleTrait;
 
 class Image extends \yii\db\ActiveRecord
 {

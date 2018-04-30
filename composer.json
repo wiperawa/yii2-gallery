@@ -1,17 +1,19 @@
 {
-    "name": "deadly299/yii2-gallery",
+    "name": "wiperawa/yii2-gallery",
     "description": "Модуль позволяет загружать виджетом картинки",
-    "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "deadly299"],
-    "homepage": "https://github.com/deadly299/yii2-gallery",
+    "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "wiperawa"],
+    "homepage": "https://github.com/wiperawa/yii2-gallery",
     "type": "yii2-extension",
     "license": "Apache-2.0",
     "support": {
-        "source": "https://github.com/deadly299/yii2-gallery"
+        "source": "https://github.com/wiperawa/yii2-gallery"
     },
     "authors": [
         {
             "name": "Pavel Archenkov",
-            "email": "Deadly299@gmail.com"
+            "email": "Deadly299@gmail.com",
+            'name": "Dmitriy Lukeryanov",
+            "email": "wiperawa@gmail.com"
         }
     ],
     "minimum-stability": "dev",
@@ -27,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "deadly299\\gallery\\": "src\\"
+            "wiperawa\\gallery\\": "src\\"
         }
     }
 }

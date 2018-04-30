@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 ?>
 
-<div class="modal fade" id="deadly299-gallery-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade" id="wiperawa-gallery-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -44,7 +44,7 @@ use yii\helpers\Url;
     </div>
 </div>
 <script>
-    $('#deadly299-gallery-modal').on('hide.bs.modal', function () {
+    $('#wiperawa-gallery-modal').on('hide.bs.modal', function () {
         $('img#cropbox').imgAreaSelect({
             hide: true,
         });

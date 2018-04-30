@@ -1,12 +1,12 @@
 <?php
 
-namespace deadly299\gallery\widgets;
+namespace wiperawa\gallery\widgets;
 
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use deadly299\gallery\assets\GalleryAsset;
+use wiperawa\gallery\assets\GalleryAsset;
 
 class FrontendGallery extends \yii\base\Widget
 {

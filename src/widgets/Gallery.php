@@ -1,5 +1,5 @@
 <?php
-namespace deadly299\gallery\widgets;
+namespace wiperawa\gallery\widgets;
 
 use yii;
 use yii\helpers\Html;
@@ -25,7 +25,7 @@ class Gallery extends \yii\base\Widget
             echo $this->render('modal');
         });
 
-        \deadly299\gallery\assets\GalleryAsset::register($this->getView());
+        \wiperawa\gallery\assets\GalleryAsset::register($this->getView());
     }
 
     public function run()
@@ -55,7 +55,7 @@ class Gallery extends \yii\base\Widget
                     'item' => function($item) {
                         return $this->row($item);
                     },
-                    'class' => 'deadly299-gallery'
+                    'class' => 'wiperawa-gallery'
                 ]);
         }
         $modal = Html::tag('div', null, ['data-role' => 'modal-crop']);
@@ -66,11 +66,11 @@ class Gallery extends \yii\base\Widget
 
     private function row($image)
     {
-        if($image instanceof \deadly299\gallery\models\PlaceHolder) {
+        if($image instanceof \wiperawa\gallery\models\PlaceHolder) {
             return '';
         }
 
-        $class = ' deadly299-gallery-row';
+        $class = ' wiperawa-gallery-row';
 
         if($image->isMain) {
             $class .= ' main';
@@ -100,7 +100,7 @@ class Gallery extends \yii\base\Widget
         $model = $this->model;
 
         return  [
-            'class' => 'deadly299-gallery-item',
+            'class' => 'wiperawa-gallery-item',
             'data-model' => $model::className(),
             'data-id' => $model->id,
             'data-image' => $id

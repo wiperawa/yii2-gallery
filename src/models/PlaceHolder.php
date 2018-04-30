@@ -1,5 +1,5 @@
 <?php
-namespace deadly299\gallery\models;
+namespace wiperawa\gallery\models;
 
 use Yii;
 

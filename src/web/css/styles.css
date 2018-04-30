@@ -1,9 +1,9 @@
-.deadly299-gallery {
+.wiperawa-gallery {
     list-style-type: none;
     margin-left: -45px;
 }
 
-.deadly299-gallery-item {
+.wiperawa-gallery-item {
     list-style: none;
     float: left;
     overflow: hidden;
@@ -13,11 +13,11 @@
     position: relative;
 }
 
-.deadly299-gallery .main {
+.wiperawa-gallery .main {
     border: 2px solid red;
 }
 
-.deadly299-gallery-item a.crop {
+.wiperawa-gallery-item a.crop {
     position: absolute;
     left: 25px;
     top: 0px;
@@ -25,14 +25,14 @@
     text-shadow: 1px 1px 4px black;
 }
 
-.deadly299-gallery-item a.delete {
+.wiperawa-gallery-item a.delete {
     position: absolute;
     right: 1px;
     top: 0px;
     color: red;
 }
 
-.deadly299-gallery-item a.write {
+.wiperawa-gallery-item a.write {
     position: absolute;
     top: 0px;
     color: green;

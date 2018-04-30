@@ -1,5 +1,5 @@
 <?php
-namespace deadly299\gallery\assets;
+namespace wiperawa\gallery\assets;
 
 use yii\web\AssetBundle;
 

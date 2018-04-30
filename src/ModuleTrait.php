@@ -1,5 +1,5 @@
 <?php
-namespace deadly299\gallery;
+namespace wiperawa\gallery;
 
 
 use yii\base\Exception;

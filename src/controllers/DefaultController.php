@@ -1,12 +1,12 @@
 <?php
-namespace deadly299\gallery\controllers;
+namespace wiperawa\gallery\controllers;
 
 use yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
-use deadly299\gallery\models\Image;
+use wiperawa\gallery\models\Image;
 
 class DefaultController extends Controller
 {

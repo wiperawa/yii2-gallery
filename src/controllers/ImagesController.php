@@ -1,9 +1,9 @@
 <?php
-namespace deadly299\gallery\controllers;
+namespace wiperawa\gallery\controllers;
 
 use yii;
 use yii\web\Controller;
-use deadly299\gallery\ModuleTrait;
+use wiperawa\gallery\ModuleTrait;
 
 class ImagesController extends Controller
 {

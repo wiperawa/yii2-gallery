@@ -1,9 +1,9 @@
 <?php
-namespace deadly299\gallery;
+namespace wiperawa\gallery;
 
 use Yii;
-use deadly299\gallery\models\PlaceHolder;
-use deadly299\gallery\models\Image;
+use wiperawa\gallery\models\PlaceHolder;
+use wiperawa\gallery\models\Image;
 
 class Module extends \yii\base\Module
 {

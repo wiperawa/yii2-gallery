@@ -1,15 +1,15 @@
 <?php
-namespace deadly299\gallery\behaviors;
+namespace wiperawa\gallery\behaviors;
 
 use yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
-use deadly299\gallery\models;
+use wiperawa\gallery\models;
 use yii\helpers\BaseFileHelper;
-use deadly299\gallery\ModuleTrait;
-use deadly299\gallery\models\Image;
-use deadly299\gallery\models\PlaceHolder;
+use wiperawa\gallery\ModuleTrait;
+use wiperawa\gallery\models\Image;
+use wiperawa\gallery\models\PlaceHolder;
 
 class AttachImages extends Behavior
 {
@@ -150,7 +150,7 @@ class AttachImages extends Behavior
         }
         $img = $this->owner->getImage($this->galleryId);
 
-        if (is_object($img) && get_class($img) == 'deadly299\gallery\models\PlaceHolder' or $img == null or $isMain) {
+        if (is_object($img) && get_class($img) == 'wiperawa\gallery\models\PlaceHolder' or $img == null or $isMain) {
             $this->setMainImage($image);
         }
 
