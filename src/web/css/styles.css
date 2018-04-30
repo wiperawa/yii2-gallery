@@ -1,3 +1,33 @@
+
+.wiperawa-image-actions {
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 4px;
+}
+
+.wiperawa-image-actions > .btn {
+    
+    margin: 4px;
+}
+
+
+.wiperawa-main-span-text {
+    margin-top: 42%;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+.wiperawa-main-span {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    text-align: center;
+    background-color: rgba(86,56, 56, 0.5)
+}
+
 .wiperawa-gallery {
     list-style-type: none;
     margin-left: -45px;
@@ -18,25 +48,30 @@
 }
 
 .wiperawa-gallery-item a.crop {
-    position: absolute;
-    left: 25px;
-    top: 0px;
+    #position: absolute;
+    #left: 25px;
+    #top: 0px;
+    font-size: 17px;
     color: #ffffffd4;
-    text-shadow: 1px 1px 4px black;
+    #text-shadow: 1px 1px 4px black;
 }
 
 .wiperawa-gallery-item a.delete {
-    position: absolute;
-    right: 1px;
-    top: 0px;
-    color: red;
+    #position: absolute;
+    #right: 1px;
+    #top: 0px;
+    font-size: 17px;
+
+    color: white;
 }
 
 .wiperawa-gallery-item a.write {
-    position: absolute;
-    top: 0px;
+    #position: absolute;
+    #top: 0px;
+    font-size: 17px;
+
     color: green;
-    text-shadow: 1px 1px 4px black;
+    #text-shadow: 1px 1px 4px black;
 }
 
 /*gallary*/

@@ -11,8 +11,11 @@ wiperawa.gallery = {
     },
     setMainProductImage: function () {
         wiperawa.gallery._sendData($(this).data('action'), $(this).parents('li').data());
-        $('.wiperawa-gallery > li').removeClass('main');
+        $('.wiperawa-gallery > li > .wiperawa-main-span').hide();
         $(this).parents('li').addClass('main');
+        var our_li = $(this).parents('li');
+        $(our_li).children('.wiperawa-main-span').show();
+        $('.wiperawa-gallery > li>').removeClass('main');
         return false;
     },
 
@@ -54,7 +57,7 @@ wiperawa.gallery = {
         });
     },
     deleteProductImage: function () {
-        if (confirm('realy?')) {
+        if (confirm('Are you sure You want to Delete Image?')) {
             wiperawa.gallery._sendData($(this).data('action'), $(this).parents('.wiperawa-gallery-item').data());
             $(this).parents('.wiperawa-gallery-item').hide('slow');
         }
@@ -182,7 +185,7 @@ wiperawa.frontendGallery = {
                 },
                 success: function (response) {
                     if (!response.error) {
-                        $('#cropbox').attr('src', response.response);
+                        $('#cropbox').attr('src', response.response+'&t=t'+ Math.random(5));
                     }
                     $('img#cropbox').imgAreaSelect({
                         hide: true,

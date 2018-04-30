@@ -229,6 +229,18 @@ class DefaultController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findImage($id);
+        //var_dump(yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath);
+        if (file_exists(yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath) ) { 
+            unlink (yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath);
+        }
+        
+        $dir_path = dirname(yii::$app->getModule('gallery')->imagesCachePath."/".$model->filePath);
+        foreach (glob($dir_path.'/'.$model->urlAlias.'*.*') as $filename) {
+    	    if (file_exists($filename) ) {
+		unlink($filename);
+	    }
+	}
+        
         $model->delete();
         
         return $this->returnJson('success');
@@ -238,6 +250,11 @@ class DefaultController extends Controller
     {
         $model = $this->findImage($id);
         $model->isMain = 1;
+        $other_images = Image::find()->where(['itemId' => $model->itemId])->all();
+        foreach($other_images as $image ) {
+    	    $image->isMain = 0;
+    	    $image->save();
+        }
         $model->save(false);
         
         return $this->returnJson('success');

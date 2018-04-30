@@ -111,13 +111,22 @@ class Gallery extends \yii\base\Widget
     {
         $size = (explode('x', $this->previewSize));
 
-        $delete = Html::a('✖', '#', ['data-action' => Url::toRoute(['/gallery/default/delete', 'id' => $image->id]), 'class' => 'delete']);
+        $delete = Html::a("<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>", '#', ['data-action' => Url::toRoute(['/gallery/default/delete', 'id' => $image->id]), 'class' => 'delete']);
         $crop = Html::a($this->getParamsIconCrop($image->id), false, ['class' => 'crop']);
         $write = Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', '#', ['data-action' => Url::toRoute(['/gallery/default/modal', 'id' => $image->id]), 'class' => 'write']);
         $img = Html::img($image->getUrl($this->previewSize), ['data-action' => Url::toRoute(['/gallery/default/setmain', 'id' => $image->id]), 'width' => $size[0], 'height' => $size[1], 'class' => 'thumb']);
+        if (!$image->isMain) {
+    	    $visibility = "style='display: none;'";
+        } else {
+    	    $visibility = '';
+        }
+        $main_selected_div = "<div class='wiperawa-main-span' ".$visibility." ><div class='wiperawa-main-span-text'>MAIN</div></div>";
+        
         $a = Html::a($img, $image->getUrl());
-
-        return $delete.$crop.$write.$a;
+	
+	$actions_div = "<div class='wiperawa-image-actions'>"."<div class='btn btn-default btn-xs'>".$write."</div>"."<div class='btn btn-info btn-xs'>".$crop."</div>"."<div class='btn btn-danger btn-xs'>".$delete."</div></div>";
+	
+        return $img.$main_selected_div.$actions_div;
     }
 
     private function getParamsIconCrop($id)
