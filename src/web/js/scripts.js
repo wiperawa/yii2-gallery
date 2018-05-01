@@ -127,7 +127,7 @@ wiperawa.frontendGallery = {
             },
             success: function (response) {
                 if (!response.error) {
-                    $('#cropbox').attr('src', response.response);
+                    $('#cropbox').attr('src', response.response+'&t=t'+ Math.random(5));
                 }
                 $('.crop-modal-body').css('opacity', 1);
                 $('.preloader-crop').removeClass('loading-crop');
