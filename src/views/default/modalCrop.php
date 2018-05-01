@@ -6,14 +6,14 @@ use yii\helpers\Url;
 
 <div class="modal fade" id="wiperawa-gallery-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Кроп изображения</h4>
             </div>
             <div class="modal-body crop-modal-body">
-                <img src="<?= $model->getUrl() ?>" width="100%" id="cropbox"/>
+                <img src="<?= $model->getUrlToOrigin() ?>" width="100%" id="cropbox"/>
 
                 <input type="hidden" class="cord-crop" id="heightImage" name="heightImage"/>
                 <input type="hidden" class="cord-crop" id="widthImage" name="widthImage"/>

@@ -41,6 +41,16 @@ class Image extends \yii\db\ActiveRecord
 
         return $url;
     }
+    public function getUrlToOrigin($size = false){
+        $urlSize = ($size) ? '_'.$size : '';
+        $url = Url::toRoute([
+            '/'.$this->getModule()->id.'/images/image-by-alias-origin',
+            'item' => $this->modelName.$this->itemId,
+            'dirtyAlias' =>  $this->urlAlias.$urlSize.'.'.$this->getExtension()
+        ]);
+
+        return $url;
+    }
 
     public function getPath($size = false)
     {
