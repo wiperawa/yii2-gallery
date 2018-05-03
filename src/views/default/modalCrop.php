@@ -35,7 +35,7 @@ use yii\helpers\Url;
                         <span class="fa fa-crop"></span>
                     </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
-                        Отмена
+                        <?=Yii::t('gallery','Cancel')?>
                     </button>
                     <div class="preloadr-crop"></div>
                 </div>
