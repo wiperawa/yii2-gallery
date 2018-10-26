@@ -229,7 +229,7 @@ class DefaultController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findImage($id);
-	    if (!$model->callRelatedBeforeDelete() ) {
+	    if (!$model->callRelatedModelEvent(Image::GALLERY_EVENT_BEFORE_DELETE) ) {
 	        $this->returnJson('error','Callback returned False');
         }
         //var_dump(yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath);

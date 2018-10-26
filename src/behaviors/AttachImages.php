@@ -268,7 +268,7 @@ class AttachImages extends Behavior
     {
         $img->clearCache();
 
-        if ( !$img->callRelatedBeforeDelete() ) return false;
+        if ( !$img->callRelatedModelEvent(Image::GALLERY_EVENT_BEFORE_DELETE) ) return false;
 	
         $storePath = $this->getModule()->getStorePath();
         $fileToRemove = $storePath . DIRECTORY_SEPARATOR . $img->filePath;
