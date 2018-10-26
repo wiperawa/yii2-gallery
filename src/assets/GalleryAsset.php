@@ -5,7 +5,6 @@ use yii\web\AssetBundle;
 
 class GalleryAsset extends AssetBundle
 {
-    //public $baseUrl = '/images';
 
     public $depends = [
         'yii\web\JqueryAsset',

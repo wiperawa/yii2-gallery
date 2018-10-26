@@ -13,6 +13,73 @@ class Image extends \yii\db\ActiveRecord
 
     private $helper = false;
 
+
+    /** 
+     * This Method Used to fire user Event of Picture Delete From Gallery
+     *
+     * Some hack going on here. if we set namespace in module config, and we set related Model name in behaivour, we can then fire hooks, on delete and on insert of gallery model.
+     * So if we use this Gallery to store photos of some object, we can set 'namespaceOfRelatedModel' in module config, in our main model we can delare 'galleryBeforeDelete()'
+     *  public method, and it will be fired here.
+     *
+     * @param void
+     *
+     * @return void
+    */
+    
+    public function callRelatedBeforeDelete() {
+	$our_module = Yii::$app->getModule('gallery');
+        if ($our_module->namespaceOfRelatedModel != '' and $this->modelName != '' ) {
+            $class_of_related_model = $our_module->namespaceOfRelatedModel.$this->modelName;
+            $relatedModel = $class_of_related_model::findOne(['id' => $this->itemId]);
+            if (is_object($relatedModel) and method_exists($relatedModel,'galleryBeforeDelete')) {
+		$relatedModel->galleryBeforeDelete($this);
+            }
+        }
+    }
+
+    /** 
+     * This Method Used to fire user Event of Picture Insert In Gallery
+     *
+     * Some hack going on here. if we set namespace in module config, and we set related Model name in behaivour, we can then fire hooks, on delete and on insert of gallery model.
+     * So if we use this Gallery to store photos of some object, we can set 'namespaceOfRelatedModel' in module config, in our main model we can delare 'galleryBeforeInsert()'
+     *  public method, and it will be fired here.
+     *
+     * @param void
+     *
+     * @return void
+    */
+
+    public function callRelatedBeforeInsert() {
+	$our_module = Yii::$app->getModule('gallery');
+        if ($our_module->namespaceOfRelatedModel != '' and $this->modelName != '' ) {
+            $class_of_related_model = $our_module->namespaceOfRelatedModel.$this->modelName;
+            $relatedModel = $class_of_related_model::findOne(['id' => $this->itemId]);
+            if (is_object($relatedModel) and method_exists($relatedModel,'galleryBeforeInsert')) {
+		$relatedModel->galleryBeforeInsert($this);
+            }
+        }
+    }
+
+    /** 
+     * This Method Used to fire user Event when piclute selected as Main in Gallery
+     *
+     *
+     * @param void
+     *
+     * @return void
+    */
+
+    public function callRelatedBeforeSetMain() {
+	$our_module = Yii::$app->getModule('gallery');
+        if ($our_module->namespaceOfRelatedModel != '' and $this->modelName != '' ) {
+            $class_of_related_model = $our_module->namespaceOfRelatedModel.$this->modelName;
+            $relatedModel = $class_of_related_model::findOne(['id' => $this->itemId]);
+            if (is_object($relatedModel) and method_exists($relatedModel,'galleryBeforeSetMain')) {
+		$relatedModel->galleryBeforeSetMain($this);
+            }
+        }
+    }
+
     public function clearCache(){
         $subDir = $this->getSubDur();
 
@@ -230,8 +297,21 @@ class Image extends \yii\db\ActiveRecord
         return $image;
     }
 
+
+    public function afterSave($insert, $changedAttributes) {
+	parent::afterSave($insert,$changedAttributes);
+	if ($insert) {
+	    $this->callRelatedBeforeInsert();
+	}
+
+    }
+
+
     public function setMain($isMain = true)
     {
+	if ($isMain) {
+	    $this->callRelatedBeforeSetMain();
+	}
         $this->isMain = $isMain ? 1 : NULL;
     }
 

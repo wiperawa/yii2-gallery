@@ -14,6 +14,7 @@ class Module extends \yii\base\Module
     public $waterMark = false;
     public $waterMarkPosition = false;
     public $adminRoles = ['admin', 'superadmin'];
+    public $namespaceOfRelatedModel = '';
 
     public function getImage($item, $dirtyAlias)
     {
