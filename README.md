@@ -1,19 +1,19 @@
 Yii2-gallery
 ==========
-Это модуль был создан, чтобы дать возможность быстро загружать в админке картинки, добавлять титульник, описание, альтернативный текст, а также задать положение (чем выше значение тем выше в списке будет изображение).
+Это модуль был создан, чтобы дать возможность быстро загружать в админке картинки, добавлять титульник, описание, альтернативный текст, а также задать положение (чем выше значение тем выше в списке будет изображение) и главное изображение для галереи.
 
 Установка
 ---------------------------------
 Выполнить команду
 
 ```
-php composer require deadly299/yii2-gallery "@dev"
+php composer require wiperawa/yii2-gallery "@dev"
 ```
 
 Или добавить в composer.json
 
 ```
-"deadly299/yii2-gallery": "@dev",
+"wiperawa/yii2-gallery": "@dev",
 ```
 
 И выполнить
@@ -25,7 +25,7 @@ php composer update
 Миграция
 
 ```
-php yii migrate/up --migrationPath=@vendor/deadly299/yii2-gallery/src/migrations
+php yii migrate/up --migrationPath=@vendor/wiperawa/yii2-gallery/src/migrations
 ```
 
 Подключение и настройка
@@ -52,10 +52,10 @@ php yii migrate/up --migrationPath=@vendor/deadly299/yii2-gallery/src/migrations
     {
         return [
             'images' => [
-                'class' => 'deadly299\gallery\behaviors\AttachImages',
+                'class' => 'wiperawa\gallery\behaviors\AttachImages',
                 'mode' => 'gallery',
                 'quality' => 60,
-                'galleryId' => 'picture'
+                'galleryId' => 'picture'	//here can be your model name for example
             ],
         ];
     }
@@ -109,7 +109,7 @@ fileInputPluginOptions => массив свойств виджета [kartik/fil
 для формы.
 
 ```php
-<?=\deadly299\gallery\widgets\Gallery::widget(
+<?=\wiperawa\gallery\widgets\Gallery::widget(
     [
         'model' => $model,
         'previewSize' => '50x50',
@@ -118,7 +118,7 @@ fileInputPluginOptions => массив свойств виджета [kartik/fil
     ]
 ); ?>
 
-<?= \deadly299\gallery\widgets\FrontendGallery::widget([
+<?= \wiperawa\gallery\widgets\FrontendGallery::widget([
     'model' => $model,
     'countInput' => 2,
     'classBlockRight' => 'col-sm-12',
