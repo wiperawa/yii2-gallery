@@ -344,12 +344,10 @@ wiperawa.frontendGallery = {
 
     },
     sorting: function () {
-        //need do sorting
-        return false;
 
         $('.gallery-preview').sort(function (a, b) {
 
-            return a.dataset.sort > b.dataset.sort;
+            return (a.dataset.sort > b.dataset.sort);
 
         }).appendTo('.block-preview')
     },
