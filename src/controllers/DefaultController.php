@@ -230,7 +230,7 @@ class DefaultController extends Controller
     {
         $model = $this->findImage($id);
 	    if (!$model->callRelatedModelEvent(Image::GALLERY_EVENT_BEFORE_DELETE) ) {
-	        $this->returnJson('error','Callback returned False');
+	        return $this->returnJson('error','Callback returned False');
         }
         //var_dump(yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath);
         if (file_exists(yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath) ) { 
