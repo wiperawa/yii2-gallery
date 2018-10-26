@@ -267,7 +267,8 @@ class AttachImages extends Behavior
     public function removeImage(Image $img)
     {
         $img->clearCache();
-	$img->callRelatedBeforeDelete();
+
+        if ( !$img->callRelatedBeforeDelete() ) return false;
 	
         $storePath = $this->getModule()->getStorePath();
         $fileToRemove = $storePath . DIRECTORY_SEPARATOR . $img->filePath;

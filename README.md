@@ -1,6 +1,8 @@
 Yii2-gallery
 ==========
 Это модуль был создан, чтобы дать возможность быстро загружать в админке картинки, добавлять титульник, описание, альтернативный текст, а также задать положение (чем выше значение тем выше в списке будет изображение) и главное изображение для галереи.
+Так же есть возможность вызывать ваши callback функции при добавлении, удалении, установке изображения в качестве главного.
+ 
 
 Установка
 ---------------------------------
@@ -31,6 +33,20 @@ php yii migrate/up --migrationPath=@vendor/wiperawa/yii2-gallery/src/migrations
 Подключение и настройка
 ---------------------------------
 В конфигурационный файл приложения добавить модуль gallery
+Если нужно выполнять callback функции при удалении, дибовлении картинки, то Укажите namespaceOfRelatedModel 
+Например ,если основная модель, для которой производится установка галереи, это абстрактный Object , находящийся в \common\models, то namespaceOfRelatedModel будет '\\common\\models\\'.
+Имя класса будет связано с каждым обьектом Image, записывается в поле modelName.
+
+Теперь достаточно всего-лишь определить у основной модели след. методы:
+public function galeryBeforeDelete(Image $img);
+Если ваш метод вернет false - картинка НЕ УДАЛИТСЯ!
+
+public function galeryBeforeInsert(Image $img); (Выполнится только если это новая картинка)
+
+public function galeryBeforeSetMain(Image $img);
+
+В целом, не знаю правильно ли это. Но для меня это решение показалось самым простым из возможных.
+
 ```php
     'modules' => [
         'gallery' => [
@@ -40,6 +56,7 @@ php yii migrate/up --migrationPath=@vendor/wiperawa/yii2-gallery/src/migrations
             'graphicsLibrary' => 'GD',
             'placeHolderPath' => '@webroot/images/placeHolder.png',
             'adminRoles' => ['administrator', 'admin', 'superadmin'],
+            'namespaceOfRelatedModel' => '' //Оставьте пустым, если callback-и не нужны
         ],
         //...
     ]

@@ -32,7 +32,7 @@ class Image extends \yii\db\ActiveRecord
             $class_of_related_model = $our_module->namespaceOfRelatedModel.$this->modelName;
             $relatedModel = $class_of_related_model::findOne(['id' => $this->itemId]);
             if (is_object($relatedModel) and method_exists($relatedModel,'galleryBeforeDelete')) {
-		$relatedModel->galleryBeforeDelete($this);
+		        return $relatedModel->galleryBeforeDelete($this);
             }
         }
     }
@@ -55,7 +55,7 @@ class Image extends \yii\db\ActiveRecord
             $class_of_related_model = $our_module->namespaceOfRelatedModel.$this->modelName;
             $relatedModel = $class_of_related_model::findOne(['id' => $this->itemId]);
             if (is_object($relatedModel) and method_exists($relatedModel,'galleryBeforeInsert')) {
-		$relatedModel->galleryBeforeInsert($this);
+		    return    $relatedModel->galleryBeforeInsert($this);
             }
         }
     }
@@ -75,7 +75,7 @@ class Image extends \yii\db\ActiveRecord
             $class_of_related_model = $our_module->namespaceOfRelatedModel.$this->modelName;
             $relatedModel = $class_of_related_model::findOne(['id' => $this->itemId]);
             if (is_object($relatedModel) and method_exists($relatedModel,'galleryBeforeSetMain')) {
-		$relatedModel->galleryBeforeSetMain($this);
+		        return $relatedModel->galleryBeforeSetMain($this);
             }
         }
     }
