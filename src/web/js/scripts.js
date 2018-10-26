@@ -58,31 +58,36 @@ wiperawa.gallery = {
     },
     deleteProductImage: function () {
         if (confirm('Are you sure You want to Delete Image?')) {
-            var ret = wiperawa.gallery._sendData($(this).data('action'), $(this).parents('.wiperawa-gallery-item').data());
-            if (ret ) {
-                $(this).parents('.wiperawa-gallery-item').hide('slow');
-            }
+            var cur_image = $(this);
+            var data = $(this).parents('.wiperawa-gallery-item').data();
+            $.post(
+                $(this).data('action'),
+        	    {image:  data.image, id: data.id, model: data.model},
+        	    function (answer) {
+		        var json = $.parseJSON(answer);
+            	    if (json.result == 'success') {
+                        $(cur_image).parents('.wiperawa-gallery-item').hide('slow');
+            	    } else {
+                	    alert(json.error);
+            	    }
+        	    }
+            );
         }
         return false;
     },
     _sendData: function (action, data) {
-        var resp = false;
-        var ret =  $.post(
+        return  $.post(
             action,
             {image: data.image, id: data.id, model: data.model},
             function (answer) {
                 var json = $.parseJSON(answer);
                 if (json.result == 'success') {
-                    resp = true;
                 }
                 else {
                     alert(json.error);
-                    resp = false;
                 }
             }
         );
-        if (ret == false ) return false;
-        return resp;
     }
 };
 
@@ -347,7 +352,7 @@ wiperawa.frontendGallery = {
 
         $('.gallery-preview').sort(function (a, b) {
 
-            return (a.dataset.sort > b.dataset.sort);
+            return a.dataset.sort > b.dataset.sort;
 
         }).appendTo('.block-preview')
     },
