@@ -13,6 +13,10 @@ class Gallery extends \yii\base\Widget
     public $fileInputPluginLoading = true;
     public $fileInputPluginOptions = [];
     public $label = null;
+    public $action_crop = 'gallery/default/crop-modal';
+    public $action_delete = 'gallery/default/delete';
+    public $action_edit = 'gallery/default/modal';
+    public $disable_edit = false;
  
     public function init()
     {
@@ -111,9 +115,12 @@ class Gallery extends \yii\base\Widget
     {
         $size = (explode('x', $this->previewSize));
 
-        $delete = Html::a("<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>", '#', ['data-action' => Url::toRoute(['/gallery/default/delete', 'id' => $image->id]), 'class' => 'delete']);
+        $delete = Html::a("<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>", '#', ['data-action' => Url::toRoute([$this->action_delete, 'id' => $image->id]), 'class' => 'delete']);
         $crop = Html::a($this->getParamsIconCrop($image->id), false, ['class' => 'crop']);
-        $write = Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', '#', ['data-action' => Url::toRoute(['/gallery/default/modal', 'id' => $image->id]), 'class' => 'write']);
+        $write = '';
+        if (!$this->disable_edit) {
+    	    $write = Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', '#', ['data-action' => Url::toRoute([$this->action_edit, 'id' => $image->id]), 'class' => 'write']);
+        }
         $img = Html::img($image->getUrl($this->previewSize), ['data-action' => Url::toRoute(['/gallery/default/setmain', 'id' => $image->id]), 'width' => $size[0], 'height' => $size[1], 'class' => 'thumb']);
         if (!$image->isMain) {
     	    $visibility = "style='display: none;'";
@@ -124,7 +131,7 @@ class Gallery extends \yii\base\Widget
         
         $a = Html::a($img, $image->getUrl());
 	
-	$actions_div = "<div class='wiperawa-image-actions'>"."<div class='btn btn-default btn-xs'>".$write."</div>"."<div class='btn btn-info btn-xs'>".$crop."</div>"."<div class='btn btn-danger btn-xs'>".$delete."</div></div>";
+	$actions_div = "<div class='wiperawa-image-actions'>".((!$this->disable_edit)?"<div class='btn btn-default btn-xs'>".$write."</div>":'')."<div class='btn btn-info btn-xs'>".$crop."</div>"."<div class='btn btn-danger btn-xs'>".$delete."</div></div>";
 	
         return $img.$main_selected_div.$actions_div;
     }
@@ -134,7 +141,7 @@ class Gallery extends \yii\base\Widget
         $params = [
             'class' => 'glyphicon glyphicon-retweet',
             'data-role' => 'show-modal-crop-icon',
-            'data-action' => Url::to(['gallery/default/crop-modal', 'id' => $id]),
+            'data-action' => Url::to([$this->action_crop, 'id' => $id]),
         ];
 
         return Html::tag('span', null, $params);

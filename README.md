@@ -50,7 +50,7 @@ public function galeryBeforeSetMain(Image $img);
 ```php
     'modules' => [
         'gallery' => [
-            'class' => 'deadly299\gallery\Module',
+            'class' => 'wiperawa\gallery\Module',
             'imagesStorePath' => dirname(dirname(__DIR__)).'/frontend/web/images/store', //path to origin images
             'imagesCachePath' => dirname(dirname(__DIR__)).'/frontend/web/images/cache', //path to resized copies
             'graphicsLibrary' => 'GD',

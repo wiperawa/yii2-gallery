@@ -39,6 +39,8 @@ class DefaultController extends Controller
 
     public function actionCropModal($id)
     {
+    
+	
         $model = $this->findImage($id);
 
         return $this->renderPartial('modalCrop', [
@@ -272,6 +274,12 @@ class DefaultController extends Controller
 
     protected function findImage($id)
     {
+	$our_module = $this->module;
+	if (is_callable($our_module->customCheckRightsFunc) ) {
+	    if (!call_user_func($our_module->customCheckRightsFunc,$id) ) {
+		throw new \yii\web\NotFoundHttpException("Image dont found.");
+	    }
+	}
         if(!$model = Image::findOne($id)) {
             throw new \yii\web\NotFoundHttpException("Image dont found.");
         }
