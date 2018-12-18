@@ -16,9 +16,6 @@ class Gallery extends \yii\base\Widget
  
     public function init()
     {
-        if(!$this->label) {
-            $this->label = yii::t('gallery', 'Image');
-        }
         
         $view = $this->getView();
         $view->on($view::EVENT_END_BODY, function($event) {
@@ -33,7 +30,10 @@ class Gallery extends \yii\base\Widget
         $model = $this->model;
         $params = [];
         $img = '';
-        $label = '<label class="control-label">'. $this->label .'</label>';
+        $label = '';
+        if ($this->label) {
+            $label = '<label class="control-label">' . $this->label . '</label>';
+        }
         $cart = '';
         
         if($model->getGalleryMode() == 'single') {
