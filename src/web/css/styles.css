@@ -48,12 +48,12 @@
 }
 
 .wiperawa-gallery-item a.crop {
-    #position: absolute;
-    #left: 25px;
-    #top: 0px;
+    //position: absolute;
+    //left: 25px;
+    //top: 0px;
     font-size: 17px;
     color: #ffffffd4;
-    #text-shadow: 1px 1px 4px black;
+    //text-shadow: 1px 1px 4px black;
 }
 
 .wiperawa-gallery-item a.delete {
@@ -66,12 +66,11 @@
 }
 
 .wiperawa-gallery-item a.write {
-    #position: absolute;
-    #top: 0px;
+    //osition: absolute;
+    //top: 0px;
     font-size: 17px;
-
-    color: green;
-    #text-shadow: 1px 1px 4px black;
+    color: white;
+    //text-shadow: 1px 1px 4px black;
 }
 
 /*gallary*/

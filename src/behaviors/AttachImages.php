@@ -96,11 +96,12 @@ class AttachImages extends Behavior
             throw new \Exception('Owner must have id when you attach image!');
         }
 
+        $ext =  pathinfo($absolutePath, PATHINFO_EXTENSION)?pathinfo($absolutePath, PATHINFO_EXTENSION):'jpg';
         $pictureFileName =
             substr(md5(microtime(true)
                 . $absolutePath), 4, 6)
             . '.'
-            . pathinfo($absolutePath, PATHINFO_EXTENSION);
+            . $ext;
 
         $pictureSubDir = $this->getModule()->getModelSubDir($this->owner);
         $storePath = $this->getModule()->getStorePath($this->owner);
@@ -112,6 +113,15 @@ class AttachImages extends Behavior
             . $pictureFileName;
 
         BaseFileHelper::createDirectory($storePath . DIRECTORY_SEPARATOR . $pictureSubDir, 0775, true);
+
+        if (preg_match('#http#', $absolutePath)) {
+            $tmp_fname = substr(md5(microtime(true) . $absolutePath), 4, 6).'.'.$ext;
+            $img = file_get_contents($absolutePath);
+
+            $absolutePath = $storePath . DIRECTORY_SEPARATOR . $pictureSubDir.DIRECTORY_SEPARATOR.$tmp_fname;
+            //var_dump($absolutePath); die();
+            file_put_contents($absolutePath,$img);
+        }
 
         if ($this->quality !== false) {
             self::resizePhoto($newAbsolutePath, $absolutePath, $this->quality);
