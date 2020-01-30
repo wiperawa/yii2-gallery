@@ -24,6 +24,8 @@ class AttachImages extends Behavior
     public $inputName = 'galleryFiles';
     private $doResetImages = true;
     public $quality = false;
+    public $maxWidth = false;
+    public $maxHeight = false;
     public $galleryId = false;
 
     const STATUS_SUCCESS = 0;
@@ -53,6 +55,7 @@ class AttachImages extends Behavior
     private static function resizePhoto($path, $tmp_name, $quality)
     {
         $type = pathinfo($path, PATHINFO_EXTENSION);
+        
 
         switch ($type) {
             case 'jpeg':

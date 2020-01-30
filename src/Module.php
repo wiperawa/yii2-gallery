@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
 {
     public $imagesStorePath = '@app/web/store';
     public $imagesCachePath = '@app/web/imgCache';
-    public $graphicsLibrary = 'GD';
+    public $graphicsLibrary = 'GD'; //Can be GD or Imagick
     public $placeHolderPath;
     public $waterMark = false;
     public $waterMarkPosition = false;
@@ -156,6 +156,9 @@ class Module extends \yii\base\Module
             $this->imagesCachePath == '@app'
         )
             throw new \Exception('Setup imagesStorePath and imagesCachePath images module properties!!!');
+        if (! in_array($this->graphicsLibrary,['GD','Imagick']) ) {
+            throw new \Exception('Graphic Library should be either GD or Imagick!');
+        }
     }
 
     public function getPlaceHolder(){
