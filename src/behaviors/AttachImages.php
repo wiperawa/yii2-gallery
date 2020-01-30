@@ -137,23 +137,24 @@ class AttachImages extends Behavior
 
     private static function getNewWidthHeight($width, $height, $max_width, $max_height) {
         if ($width > $height) {
-            if($width < $max_width)
+            if(!$max_width || $width < $max_width)
                 $newwidth = $width;
             else
                 $newwidth = $max_width;
             $divisor = $width / $newwidth;
+
             $newheight = floor( $height / $divisor);
         } else {
 
-            if($height < $max_height)
+            if(!$max_height || $height < $max_height)
                 $newheight = $height;
             else
                 $newheight =  $max_height;
 
             $divisor = $height / $newheight;
+
             $newwidth = floor( $width / $divisor );
         }
-
         return [$newwidth,$newheight];
     }
 

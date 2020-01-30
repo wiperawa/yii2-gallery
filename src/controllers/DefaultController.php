@@ -261,7 +261,6 @@ class DefaultController extends Controller
     	    $image->save();
         }
         $model->save(false);
-        
         return $this->returnJson('success');
     }
     
