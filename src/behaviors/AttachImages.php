@@ -1,7 +1,7 @@
 <?php
 namespace wiperawa\gallery\behaviors;
 
-use yii;
+use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
@@ -33,7 +33,7 @@ class AttachImages extends Behavior
     public function init()
     {
         if (empty($this->uploadsPath)) {
-            $this->uploadsPath = yii::$app->getModule('gallery')->imagesStorePath;
+            $this->uploadsPath = Yii::$app->getModule('gallery')->imagesStorePath;
         }
 
         if ($this->quality > 100) {
@@ -52,39 +52,109 @@ class AttachImages extends Behavior
         ];
     }
 
-    private static function resizePhoto($path, $tmp_name, $quality)
+    private static function resizePhoto($source_filename, $new_filename, $quality, $max_width, $max_height)
     {
-        $type = pathinfo($path, PATHINFO_EXTENSION);
 
+        if (Yii::$app->getModule('gallery')->graphicsLibrary == 'GD') {
+            return static::resizePhotoGd($source_filename, $new_filename, $quality, $max_width, $max_height);
+        }
+        return static::resizePhotoImagick($source_filename, $new_filename, $quality, $max_width, $max_height);
 
+    }
+
+    private static function resizePhotoImagick ($source_filename, $new_filename, $quality = false, $max_width, $max_height) {
+        $image = new \Imagick($source_filename);
+        $width = $image->getImageWidth();
+        $height = $image->getImageHeight();
+        list($new_width, $new_height) = static::getNewWidthHeight($width, $height, $max_width, $max_height);
+
+        $image->resizeImage($new_width, $new_height,\Imagick::FILTER_POINT,1);
+        $ret = $image->writeImage($new_filename);
+        $image->destroy();
+        return $ret;
+    }
+
+    private static function resizePhotoGd($source_filename, $new_filename, $quality, $max_width = false, $max_height = false) {
+        $type = pathinfo($source_filename, PATHINFO_EXTENSION);
         switch ($type) {
             case 'jpeg':
-            case 'jpg': {
-                $source = imagecreatefromjpeg($tmp_name);
-                $result = imagejpeg($source, $path, $quality);
+            case 'jpg':
+            {
+                $source = imagecreatefromjpeg($source_filename);
                 break;
             }
-            case 'png': {
-                $source = imagecreatefrompng($tmp_name);
-                imagesavealpha($source, true);
-                $quality = (int)(100 - $quality) / 10 - 1;
-                $result = imagepng($source, $path, $quality);
+            case 'png':
+            {
+                $source = imagecreatefrompng($source_filename);
                 break;
 
             }
-            case 'gif': {
-                $source = imagecreatefromgif($tmp_name);
-                $result = imagegif($source, $path);
+            case 'gif':
+            {
+                $source = imagecreatefromgif($source_filename);
                 break;
             }
-
             default:
                 return false;
         }
 
-        imagedestroy($source);
+        $width = imagesx($source);
+        $height = imagesy($source);
 
-        return $result;
+        list($newwidth, $newheight) = static::getNewWidthHeight($width, $height, $max_width, $max_height);
+
+        $tmpimg = imagecreatetruecolor( $newwidth, $newheight );
+
+        imagealphablending($tmpimg, false);
+        imagesavealpha($tmpimg, true);
+
+        imagecopyresampled( $tmpimg, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+
+        if ( !$quality ) {
+            $quality = 70;
+        }
+
+        switch($type){
+            case'jpeg':
+            case'jpg':
+                $res = imagejpeg($tmpimg, $new_filename, $quality);
+                break;
+            case'png':
+                $quality = (int)(100 - $quality) / 10 - 1;
+                $res = imagepng($tmpimg, $new_filename, $quality);
+                break;
+            case'gif':
+                $res = imagegif($tmpimg, $new_filename);
+                break;
+
+        }
+
+        imagedestroy($source);
+        imagedestroy($tmpimg);
+
+        return $res;
+    }
+
+    private static function getNewWidthHeight($width, $height, $max_width, $max_height) {
+        if ($width > $height) {
+            if($width < $max_width)
+                $newwidth = $width;
+            else
+                $newwidth = $max_width;
+            $divisor = $width / $newwidth;
+            $newheight = floor( $height / $divisor);
+        } else {
+
+            if($height < $max_height)
+                $newheight = $height;
+            else
+                $newheight =  $max_height;
+
+            $divisor = $height / $newheight;
+            $newwidth = floor( $width / $divisor );
+        }
+
+        return [$newwidth,$newheight];
     }
 
     public function attachImage($absolutePath, $isMain = false)
@@ -116,8 +186,8 @@ class AttachImages extends Behavior
 
         BaseFileHelper::createDirectory($storePath . DIRECTORY_SEPARATOR . $pictureSubDir, 0775, true);
 
-        if ($this->quality !== false) {
-            self::resizePhoto($newAbsolutePath, $absolutePath, $this->quality);
+        if ($this->quality !== false or $this->maxHeight != false or $this->maxWidth != false) {
+            self::resizePhoto($absolutePath, $newAbsolutePath, $this->quality,$this->maxWidth, $this->maxHeight);
         } else {
             copy($absolutePath, $newAbsolutePath);
         }

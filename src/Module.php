@@ -159,6 +159,9 @@ class Module extends \yii\base\Module
         if (! in_array($this->graphicsLibrary,['GD','Imagick']) ) {
             throw new \Exception('Graphic Library should be either GD or Imagick!');
         }
+        if ($this->graphicsLibrary == 'Imagick' and !extension_loaded('imagick')) {
+            throw new \Exception('ImageMagick php extension not installed!');
+        }
     }
 
     public function getPlaceHolder(){
