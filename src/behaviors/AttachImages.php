@@ -55,7 +55,7 @@ class AttachImages extends Behavior
     private static function resizePhoto($path, $tmp_name, $quality)
     {
         $type = pathinfo($path, PATHINFO_EXTENSION);
-        
+
 
         switch ($type) {
             case 'jpeg':
