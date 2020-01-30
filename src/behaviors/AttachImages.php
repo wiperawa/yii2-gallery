@@ -339,7 +339,9 @@ class AttachImages extends Behavior
         if ($userImages && $this->doResetImages) {
             foreach ($userImages as $file) {
                 if (in_array(strtolower($file->extension), $this->allowExtensions)) {
-
+                    if ($file->error) {
+                        throw new \ErrorException('Unable to upload file, code is: '.$file->error,500);
+                    }
                     if (!file_exists($this->uploadsPath)) {
                         mkdir($this->uploadsPath, 0777, true);
                     }
@@ -353,6 +355,8 @@ class AttachImages extends Behavior
                     }
 
                     $this->attachImage("{$this->uploadsPath}/{$file->baseName}.{$file->extension}");
+                } else {
+                    throw new \ErrorException('File not allowed', 500);
                 }
             }
 
