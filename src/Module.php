@@ -5,6 +5,7 @@ use Yii;
 use wiperawa\gallery\models\PlaceHolder;
 use wiperawa\gallery\models\Image;
 
+
 class Module extends \yii\base\Module
 {
     public $imagesStorePath = '@app/web/store';

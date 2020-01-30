@@ -7,6 +7,23 @@ use yii\helpers\Url;
 use yii\helpers\BaseFileHelper;
 use wiperawa\gallery\ModuleTrait;
 
+/**
+ * This is the model class for {{%image}} table
+ * @property int $id
+ * @property string $title
+ * @property string $description
+ * @property string $gallery_id
+ * @property int $sort
+ * @property string $alt
+ * @property string $filePath
+ * @property int $itemId Id of related model
+ * @property boolean $isMain
+ * @property string $modelName name of related model
+ * @property string $urlAlias
+ *
+ * @package wiperawa\gallery\models
+ */
+
 class Image extends \yii\db\ActiveRecord
 {
     use ModuleTrait;
@@ -21,8 +38,10 @@ class Image extends \yii\db\ActiveRecord
     /**
      * This Method Used to fire user Event in Main Model
      *
-     * Some hack going on here. if we set namespace in module config, and we set related Model name in behaivour, we can then fire hooks, on delete and on insert of gallery model.
-     * So if we use this Gallery to store photos of some object, we can set 'namespaceOfRelatedModel' in module config, in our main model we can delare 'galleryBeforeDelete()',
+     * Some hack going on here. if we set namespace in module config, and we set related Model name in behaivour,
+     * we can then fire hooks, on delete and on insert of gallery model.
+     * So if we use this Gallery to store photos of some object, we can set 'namespaceOfRelatedModel'
+     * in module config, in our main model we can delare 'galleryBeforeDelete()',
      * galleryBeforeInsert($image) or galleryBeforeSetMain($image)
      *  public method, and it will be fired here.
      *

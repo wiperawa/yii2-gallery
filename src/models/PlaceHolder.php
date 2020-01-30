@@ -5,8 +5,8 @@ use Yii;
 
 class PlaceHolder extends Image
 {
-    private $modelName = '';
-    private $itemId = '';
+    protected $modelName = '';
+    protected $itemId = '';
     public $filePath = 'placeHolder.png';
     public $urlAlias = 'placeHolder';
 

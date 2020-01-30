@@ -1,6 +1,6 @@
 Yii2-gallery
 ==========
-Это модуль был создан, чтобы дать возможность быстро загружать в админке картинки, добавлять титульник, описание, альтернативный текст, а также задать положение (чем выше значение тем выше в списке будет изображение) и главное изображение для галереи.
+Это модуль был создан, чтобы дать возможность быстро загружать в админке картинки, добавлять заголовок, описание, альтернативный текст, а также задать положение (чем выше значение тем выше в списке будет изображение) и главное изображение для галереи.
 Так же есть возможность вызывать ваши callback функции при добавлении, удалении, установке изображения в качестве главного.
  
 
@@ -122,10 +122,39 @@ fileInputPluginOptions => массив свойств виджета [kartik/fil
 
 
 Не забудьте
-```php<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>```
-для формы.
-
 ```php
+<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+```
+для формы.
+Если нужен ajax upload, укажите uploadUrl для fileInputPluginOptions
+```php
+...
+    'fileInputPluginOptions' => [
+        'uploadUrl' => Url::to('/your/upload/action')
+    ]
+...
+```
+в этом случае, нужно создать экшн контроллера, который будет загружать файлы и аттачить их к модели, например:
+```php
+public function actionUploadPhoto($id) {
+//$model - наша модель с добавленным поведением
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        try {
+            if ($model->setImages(ActiveRecord::EVENT_AFTER_INSERT)) {
+                return true;
+            }
+        } catch (\ErrorException $e) {
+            return ['error' => $e->getMessage()];
+        }
+
+        return false;
+    }
+```
+```php
+
 <?=\wiperawa\gallery\widgets\Gallery::widget(
     [
         'model' => $model,
