@@ -94,6 +94,7 @@ class Gallery extends \yii\base\Widget
             'options' => [
                 'accept' => 'image/*',
                 'multiple' => $this->model->getGalleryMode() == 'gallery',
+                'resizeImages' => ( !empty($this->fileInputPluginOptions['resizeImage']) ),
             ],
             'pluginOptions' => $this->fileInputPluginOptions,
             'pluginLoading' => $this->fileInputPluginLoading
