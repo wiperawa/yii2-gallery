@@ -97,7 +97,7 @@ class Gallery extends \yii\base\Widget
             ],
             'resizeImages' => ( isset($this->fileInputPluginOptions['resizeImage'])
                 and $this->fileInputPluginOptions['resizeImage'] === true ),
-            
+
             'pluginOptions' => $this->fileInputPluginOptions,
             'pluginLoading' => $this->fileInputPluginLoading
         ]);
