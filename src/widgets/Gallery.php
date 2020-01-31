@@ -5,6 +5,8 @@ use yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\file\FileInput;
+use wiperawa\gallery\assets\GalleryAsset;
+use wiperawa\gallery\assets\PicaAsset;
 
 class Gallery extends \yii\base\Widget
 {
@@ -17,7 +19,7 @@ class Gallery extends \yii\base\Widget
     public $action_delete = 'gallery/default/delete';
     public $action_edit = 'gallery/default/modal';
     public $disable_edit = false;
- 
+
     public function init()
     {
         
@@ -25,8 +27,7 @@ class Gallery extends \yii\base\Widget
         $view->on($view::EVENT_END_BODY, function($event) {
             echo $this->render('modal');
         });
-
-        \wiperawa\gallery\assets\GalleryAsset::register($this->getView());
+        GalleryAsset::register($view);
     }
 
     public function run()
