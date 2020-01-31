@@ -2,7 +2,7 @@ Yii2-gallery
 ==========
 Это модуль был создан, чтобы дать возможность быстро загружать в админке картинки, добавлять заголовок, описание, альтернативный текст, а также задать положение (чем выше значение тем выше в списке будет изображение) и главное изображение для галереи.
 Так же есть возможность вызывать ваши callback функции при добавлении, удалении, установке изображения в качестве главного.
- 
+Возможность пережать изображение как на стороне сервера так и на клиенте. 
 
 Установка
 ---------------------------------
@@ -72,6 +72,8 @@ public function galeryBeforeSetMain(Image $img);
                 'class' => 'wiperawa\gallery\behaviors\AttachImages',
                 'mode' => 'gallery',
                 'quality' => 60,
+                'maxWidth' => 1920, //Задается, если нужно пережать картинку после аплоада по ширине или высоте 
+                'maxHeight' => 1080,
                 'galleryId' => 'picture'	//here can be your model name for example
             ],
         ];
@@ -153,6 +155,10 @@ public function actionUploadPhoto($id) {
         return false;
     }
 ```
+
+Так же, если у казать  ResizeImage, maxImageHeight, maxImageWidth  то картина пережмется на стороне клиента. 
+(подробнее в описании виджета [kartik/file-input](https://plugins.krajee.com/file-input/plugin-options#resizeImage)
+
 ```php
 
 <?=\wiperawa\gallery\widgets\Gallery::widget(

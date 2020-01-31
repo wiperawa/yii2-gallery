@@ -67,7 +67,9 @@ class AttachImages extends Behavior
         $width = $image->getImageWidth();
         $height = $image->getImageHeight();
         list($new_width, $new_height) = static::getNewWidthHeight($width, $height, $max_width, $max_height);
-
+        if ($new_width == $width and $new_height == $height) {
+            return copy($source_filename,$new_filename);
+        }
         $image->resizeImage($new_width, $new_height,\Imagick::FILTER_POINT,1);
         $ret = $image->writeImage($new_filename);
         $image->destroy();
@@ -101,14 +103,18 @@ class AttachImages extends Behavior
         $width = imagesx($source);
         $height = imagesy($source);
 
-        list($newwidth, $newheight) = static::getNewWidthHeight($width, $height, $max_width, $max_height);
+        list($new_width, $new_height) = static::getNewWidthHeight($width, $height, $max_width, $max_height);
 
-        $tmpimg = imagecreatetruecolor( $newwidth, $newheight );
+        if ($new_width == $width and $new_height == $height) {
+            return copy($source_filename,$new_filename);
+        }
+
+        $tmpimg = imagecreatetruecolor( $new_width, $new_height );
 
         imagealphablending($tmpimg, false);
         imagesavealpha($tmpimg, true);
 
-        imagecopyresampled( $tmpimg, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+        imagecopyresampled( $tmpimg, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 
         if ( !$quality ) {
             $quality = 70;
