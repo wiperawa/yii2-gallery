@@ -20,7 +20,8 @@
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "kartik-v/yii2-widget-fileinput": "*",
-        "abeautifulsite/simpleimage": "2.*"
+        "abeautifulsite/simpleimage": "2.*",
+        "bower-asset/pica": "5.*"
     },
     "config": {
         "process-timeout": 1800
