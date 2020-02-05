@@ -34,7 +34,7 @@ class Gallery extends \yii\base\Widget
     public function run()
     {
         $model = $this->model;
-        $module_name = $model->getModule()->id;
+        $module_name = Yii::$app->getModule('gallery')->id;
         $this->action_crop =   '/'. $module_name.'/'.$this->action_crop;
         $this->action_delete = '/'. $module_name.'/'.$this->action_delete;
         $this->action_edit =   '/'. $module_name.'/'.$this->action_edit;
