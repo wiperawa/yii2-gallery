@@ -15,9 +15,10 @@ class Gallery extends \yii\base\Widget
     public $fileInputPluginLoading = true;
     public $fileInputPluginOptions = [];
     public $label = null;
-    public $action_crop = 'gallery/default/crop-modal';
-    public $action_delete = 'gallery/default/delete';
-    public $action_edit = 'gallery/default/modal';
+    protected $action_crop = 'default/crop-modal';
+    protected $action_delete = 'default/delete';
+    protected $action_edit = 'default/modal';
+    protected $action_setmain = 'default/setmain';
     public $disable_edit = false;
 
     public function init()
@@ -33,6 +34,11 @@ class Gallery extends \yii\base\Widget
     public function run()
     {
         $model = $this->model;
+        $module_name = $model->getModule()->id;
+        $this->action_crop =   '/'. $module_name.'/'.$this->action_crop;
+        $this->action_delete = '/'. $module_name.'/'.$this->action_delete;
+        $this->action_edit =   '/'. $module_name.'/'.$this->action_edit;
+        
         $params = [];
         $img = '';
         $label = '';
@@ -95,8 +101,7 @@ class Gallery extends \yii\base\Widget
                 'accept' => 'image/*',
                 'multiple' => $this->model->getGalleryMode() == 'gallery',
             ],
-            'resizeImages' => ( isset($this->fileInputPluginOptions['resizeImage'])
-                and $this->fileInputPluginOptions['resizeImage'] === true ),
+	    'resizeImages' => ( !empty($this->fileInputPluginOptions['resizeImage']) ),
 
             'pluginOptions' => $this->fileInputPluginOptions,
             'pluginLoading' => $this->fileInputPluginLoading
@@ -123,15 +128,30 @@ class Gallery extends \yii\base\Widget
         $crop = Html::a($this->getParamsIconCrop($image->id), false, ['class' => 'crop']);
         $write = '';
         if (!$this->disable_edit) {
-    	    $write = Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', '#', ['data-action' => Url::toRoute([$this->action_edit, 'id' => $image->id]), 'class' => 'write']);
+    	    $write = Html::a(
+    	        '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                '#',
+                [
+                    'data-action' => Url::toRoute([$this->action_edit, 'id' => $image->id]),
+                    'class' => 'write'
+                ]
+            );
         }
-        $img = Html::img($image->getUrl($this->previewSize), ['data-action' => Url::toRoute(['/gallery/default/setmain', 'id' => $image->id]), 'width' => $size[0], 'height' => $size[1], 'class' => 'thumb']);
+        $img = Html::img(
+            $image->getUrl($this->previewSize),
+            [
+                'data-action' => Url::toRoute([$this->action_setmain, 'id' => $image->id]),
+                'width' => $size[0],
+                'height' => $size[1],
+                'class' => 'thumb'
+            ]
+        );
         if (!$image->isMain) {
     	    $visibility = "style='display: none;'";
         } else {
     	    $visibility = '';
         }
-        $main_selected_div = "<div class='wiperawa-main-span' ".$visibility." ><div class='wiperawa-main-span-text'>MAIN</div></div>";
+        $main_selected_div = "<div class='wiperawa-main-span' ".$visibility." ><div class='wiperawa-main-span-text'>Main</div></div>";
         
         $a = Html::a($img, $image->getUrl());
 	
