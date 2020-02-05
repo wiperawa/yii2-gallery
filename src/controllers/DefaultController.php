@@ -12,23 +12,28 @@ class DefaultController extends Controller
 {
         public function behaviors()
     {
-        return [
+        $behaviours =  [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'ajax' => ['post'],
                 ],
-            ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => $this->module->adminRoles
-                    ]
-                ]
             ]
         ];
+        if (!empty($this->module->adminRoles) ) {
+            $behaviours = array_merge($behaviours, [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => $this->module->adminRoles
+                        ]
+                    ]
+                ]
+            ]);
+        }
+        return $behaviours;
     }
 
     
