@@ -38,7 +38,8 @@ class Gallery extends \yii\base\Widget
         $this->action_crop =   '/'. $module_name.'/'.$this->action_crop;
         $this->action_delete = '/'. $module_name.'/'.$this->action_delete;
         $this->action_edit =   '/'. $module_name.'/'.$this->action_edit;
-        
+        $this->action_setmain =   '/'. $module_name.'/'.$this->action_setmain;
+
         $params = [];
         $img = '';
         $label = '';
