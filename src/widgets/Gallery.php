@@ -16,11 +16,18 @@ class Gallery extends Widget
     public $fileInputPluginLoading = true;
     public $fileInputPluginOptions = [];
     public $label = null;
+    public $disableEdit = false;
+
+    public $iconDelete = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+    public $iconCrop = '<span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>';
+    public $iconEdit = '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>';
+
     protected $action_crop = 'default/crop-modal';
     protected $action_delete = 'default/delete';
     protected $action_edit = 'default/modal';
     protected $action_setmain = 'default/setmain';
-    public $disable_edit = false;
+
+
 
     public function init()
     {
@@ -131,15 +138,22 @@ class Gallery extends Widget
         $size = (explode('x', $this->previewSize));
 
         $delete = Html::a(
-            "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>",
+            $this->iconDelete,
             '#',
             ['data-action' => Url::toRoute([$this->action_delete, 'id' => $image->id]), 'class' => 'btn btn-sm btn-danger delete']
         );
-        $crop = Html::a($this->getParamsIconCrop($image->id), false, ['class' => 'btn btn-sm btn-info crop']);
+        $crop = Html::a(
+            $this->iconCrop,
+            Url::to([$this->action_crop, 'id' => $image->id]),
+            [
+                'class' => 'btn btn-sm btn-info crop',
+                'data-role' => 'show-modal-crop-icon'
+            ]
+        );
         $write = '';
-        if (!$this->disable_edit) {
+        if (!$this->disableEdit) {
     	    $write = Html::a(
-    	        '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+    	        $this->iconEdit,
                 '#',
                 [
                     'data-action' => Url::toRoute([$this->action_edit, 'id' => $image->id]),
@@ -162,12 +176,9 @@ class Gallery extends Widget
     	    $visibility = '';
         }
         $main_selected_div = "<div class='wiperawa-main-span' ".$visibility." ><div class='wiperawa-main-span-text'>Main</div></div>";
-        
-        $a = Html::a($img, $image->getUrl());
-	
-	$actions_div = "<div class='wiperawa-image-actions'>".
-        ((!$this->disable_edit)?$write:'').
-        $crop.$delete.
+
+	    $actions_div = "<div class='wiperawa-image-actions'>".
+            $write. $crop . $delete.
         "</div>";
 	
         return $img.$main_selected_div.$actions_div;

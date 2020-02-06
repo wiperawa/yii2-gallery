@@ -31,7 +31,7 @@ wiperawa.gallery = {
             data: data,
             success: function (result) {
                 var json = $.parseJSON(result);
-                if (json.result == 'success') {
+                if (json.result === 'success') {
                     modalContainer.modal('hide');
                 }
                 else {
@@ -65,7 +65,7 @@ wiperawa.gallery = {
         	    {image:  data.image, id: data.id, model: data.model},
         	    function (answer) {
 		        var json = $.parseJSON(answer);
-            	    if (json.result == 'success') {
+            	    if (json.result === 'success') {
                         $(cur_image).parents('.wiperawa-gallery-item').hide('slow');
             	    } else {
                 	    alert(json.error);
@@ -81,7 +81,7 @@ wiperawa.gallery = {
             {image: data.image, id: data.id, model: data.model},
             function (answer) {
                 var json = $.parseJSON(answer);
-                if (json.result == 'success') {
+                if (json.result === 'success') {
                 }
                 else {
                     alert(json.error);
@@ -185,7 +185,7 @@ wiperawa.frontendGallery = {
             }
         });
 
-        if (Object.keys(dataCords).length == 7) {
+        if (Object.keys(dataCords).length === 7) {
             $.post({
                 url: url,
                 dataType: 'json',
@@ -207,9 +207,10 @@ wiperawa.frontendGallery = {
             });
         }
     },
-    showModalCrop: function () {
+    showModalCrop: function (e) {
+        e.preventDefault();
         var self = this,
-            url = $(self).data('action');
+            url = ( $(self).data('action')? $(self).data('action'): $(self).attr('href')  );
 
         $.post({
             url: url,
@@ -221,6 +222,7 @@ wiperawa.frontendGallery = {
                 }
             }
         });
+        return false;
     },
     setCordsImageInInputs: function () {
         $('img#cropbox').imgAreaSelect({
@@ -242,7 +244,7 @@ wiperawa.frontendGallery = {
             $('#heightPlane').val(c.height);
             $('#heightImage').val(image.height());
             $('#widthImage').val(image.width());
-        };
+        }
     },
     deleteFile: function () {
         var self = this,
@@ -392,8 +394,8 @@ wiperawa.frontendGallery = {
         });
     },
     validate: function () {
-        var success = true,
-            self = this;
+        var success = true;
+
         $(document).find('.block-preview').children('[data-required=1]').each(function () {
             var self = this,
                 fileValue = $(self).find('[data-role=gallery-file-input]').val();

@@ -159,14 +159,27 @@ public function actionUploadPhoto($id) {
 Так же, если у казать  ResizeImage, maxImageHeight, maxImageWidth  то картина пережмется на стороне клиента. 
 (подробнее в описании виджета [kartik/file-input](https://plugins.krajee.com/file-input/plugin-options#resizeImage)
 
+Задайте свои иконки для кнопок, если нужно. (iconDelete, iconEdit, IconCrop)
 ```php
 
 <?=\wiperawa\gallery\widgets\Gallery::widget(
     [
         'model' => $model,
-        'previewSize' => '50x50',
+        'previewSize' => '140x140',
         'fileInputPluginLoading' => true,
-        'fileInputPluginOptions' => []
+        'fileInputPluginOptions' => [
+            'uploadUrl' => Url::to('/your/upload/action'),
+            'maxFileCount' => 20,
+          //'maxFileSize' => 5120,
+          //'resizeImage' => true, //Если нужно резайзить картинку на клиенте
+          //'maxImageWidth' => 1760, //Максимальная ширина
+          //'maxImageHeight' => 1080 //Максимальная высота
+          //Можете указать свои иконки для кнопок, например если используете bootstrap4
+          //'iconDelete' => '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>'
+          //'iconCrop' => ...
+          //'iconEdit' => ...  
+        ],
+    
     ]
 ); ?>
 
