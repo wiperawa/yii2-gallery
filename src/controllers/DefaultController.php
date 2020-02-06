@@ -5,9 +5,13 @@ use yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 use yii\helpers\Json;
 use wiperawa\gallery\models\Image;
 
+/**
+ * @var $module wiperawa\gallery\Module
+ */
 class DefaultController extends Controller
 {
         public function behaviors()
@@ -20,7 +24,7 @@ class DefaultController extends Controller
                 ],
             ]
         ];
-        if (!empty($this->module->adminRoles) ) {
+        if (!empty($this->module->access) ) {
             $behaviours = array_merge($behaviours, [
                 'access' => [
                     'class' => AccessControl::className(),
@@ -36,16 +40,10 @@ class DefaultController extends Controller
         return $behaviours;
     }
 
-    
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
 
     public function actionCropModal($id)
     {
-    
-	
+
         $model = $this->findImage($id);
 
         return $this->renderPartial('modalCrop', [
@@ -281,11 +279,11 @@ class DefaultController extends Controller
 	$our_module = $this->module;
 	if (is_callable($our_module->customCheckRightsFunc) ) {
 	    if (!call_user_func($our_module->customCheckRightsFunc,$id) ) {
-		throw new \yii\web\NotFoundHttpException("Image dont found.");
+		throw new NotFoundHttpException("Image dont found.");
 	    }
 	}
         if(!$model = Image::findOne($id)) {
-            throw new \yii\web\NotFoundHttpException("Image dont found.");
+            throw new NotFoundHttpException("Image dont found.");
         }
         
         return $model;
