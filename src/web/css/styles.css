@@ -37,14 +37,14 @@
     list-style: none;
     float: left;
     overflow: hidden;
-    padding: 3px;
+    padding: 4px;
     margin: 3px;
-    border: 2px solid #333;
+    border: 1px solid #ddd;
     position: relative;
 }
 
 .wiperawa-gallery .main {
-    border: 2px solid red;
+    border: 1px solid red;
 }
 /*gallary*/
 

@@ -12,10 +12,10 @@ wiperawa.gallery = {
     setMainProductImage: function () {
         wiperawa.gallery._sendData($(this).data('action'), $(this).parents('li').data());
         $('.wiperawa-gallery > li > .wiperawa-main-span').hide();
+        $('.wiperawa-gallery > li').removeClass('main');
         $(this).parents('li').addClass('main');
         var our_li = $(this).parents('li');
         $(our_li).children('.wiperawa-main-span').show();
-        $('.wiperawa-gallery > li>').removeClass('main');
         return false;
     },
 
