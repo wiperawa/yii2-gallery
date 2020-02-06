@@ -4,6 +4,7 @@ namespace wiperawa\gallery\models;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\Url;
+use yii\db\ActiveRecord;
 use yii\helpers\BaseFileHelper;
 use wiperawa\gallery\ModuleTrait;
 
@@ -24,7 +25,7 @@ use wiperawa\gallery\ModuleTrait;
  * @package wiperawa\gallery\models
  */
 
-class Image extends \yii\db\ActiveRecord
+class Image extends ActiveRecord
 {
     use ModuleTrait;
 
@@ -66,7 +67,7 @@ class Image extends \yii\db\ActiveRecord
 
 
     public function clearCache(){
-        $subDir = $this->getSubDur();
+        $subDir = $this->getSubDir();
 
         $dirToRemove = $this->getModule()->getCachePath().DIRECTORY_SEPARATOR.$subDir;
 
@@ -108,7 +109,7 @@ class Image extends \yii\db\ActiveRecord
     {
         $urlSize = ($size) ? '_'.$size : '';
         $base = $this->getModule()->getCachePath();
-        $sub = $this->getSubDur();
+        $sub = $this->getSubDir();
 
         $origin = $this->getPathToOrigin();
 
@@ -190,7 +191,7 @@ class Image extends \yii\db\ActiveRecord
         }
 
         $cachePath = $this->getModule()->getCachePath();
-        $subDirPath = $this->getSubDur();
+        $subDirPath = $this->getSubDir();
         $fileExtension =  pathinfo($this->filePath, PATHINFO_EXTENSION);
 
         if($sizeString) {
@@ -300,7 +301,7 @@ class Image extends \yii\db\ActiveRecord
         $this->isMain = $isMain ? 1 : NULL;
     }
 
-    protected function getSubDur()
+    protected function getSubDir()
     {
         return $this->modelName. 's/' . $this->modelName.$this->itemId;
     }
@@ -326,16 +327,16 @@ class Image extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => yii::t('gallery', 'Title'),
-            'description' => yii::t('gallery', 'Description'),
-            'gallery_id' => yii::t('gallery', 'Gallery ID'),
-            'sort' => yii::t('gallery', 'Sort'),
-            'alt' => yii::t('gallery', 'Alt attrubute'),
-            'filePath' => yii::t('gallery', 'File Path'),
-            'itemId' => yii::t('gallery', 'Item ID'),
-            'isMain' => yii::t('gallery', 'Is Main'),
-            'modelName' => yii::t('gallery', 'Model Name'),
-            'urlAlias' => yii::t('gallery', 'Url Alias'),
+            'title' => Yii::t('gallery', 'Title'),
+            'description' => Yii::t('gallery', 'Description'),
+            'gallery_id' => Yii::t('gallery', 'Gallery ID'),
+            'sort' => Yii::t('gallery', 'Sort'),
+            'alt' => Yii::t('gallery', 'Alt attrubute'),
+            'filePath' => Yii::t('gallery', 'File Path'),
+            'itemId' => Yii::t('gallery', 'Item ID'),
+            'isMain' => Yii::t('gallery', 'Is Main'),
+            'modelName' => Yii::t('gallery', 'Model Name'),
+            'urlAlias' => Yii::t('gallery', 'Url Alias'),
         ];
     }
 }

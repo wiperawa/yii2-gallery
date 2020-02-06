@@ -30,22 +30,13 @@ class ImagesController extends Controller
         if($image){
             $this->prepareHeaders($image);
             return $image->getContent($this->getSizeFromAlias($dirtyAlias));
-        }else{
-            throw new HttpException(404, 'There is no images');
         }
+            throw new HttpException(404, 'There is no images');
     }
 
     public function actionImageByAliasOrigin($item = '', $dirtyAlias)
     {
-
-        $image = $this->getImage($item,$dirtyAlias);
-
-        if($image){
-            $this->prepareHeaders($image);
-            return $image->getContent($this->getSizeFromAlias($dirtyAlias));
-        }else{
-            throw new HttpException(404, 'There is no images');
-        }
+        return $this->actionImageByItemAndAlias($item,$dirtyAlias);
     }
 
     protected function getImage($item, $dirtyAlias) {

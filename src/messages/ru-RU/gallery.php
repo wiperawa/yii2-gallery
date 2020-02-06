@@ -12,4 +12,5 @@ return [
     'Is Main' => 'Это главная',
     'Model Name' => 'Модель',
     'Url Alias' => 'Алиас',
+    'Crop Image' => 'Обрезка Изображения'
 ];

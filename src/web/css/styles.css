@@ -46,34 +46,6 @@
 .wiperawa-gallery .main {
     border: 2px solid red;
 }
-
-.wiperawa-gallery-item a.crop {
-    #position: absolute;
-    #left: 25px;
-    #top: 0px;
-    font-size: 17px;
-    color: #ffffffd4;
-    #text-shadow: 1px 1px 4px black;
-}
-
-.wiperawa-gallery-item a.delete {
-    #position: absolute;
-    #right: 1px;
-    #top: 0px;
-    font-size: 17px;
-
-    color: white;
-}
-
-.wiperawa-gallery-item a.write {
-    #position: absolute;
-    #top: 0px;
-    font-size: 17px;
-
-    color: green;
-    #text-shadow: 1px 1px 4px black;
-}
-
 /*gallary*/
 
 .block-preview > .empty {

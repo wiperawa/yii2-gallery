@@ -2,13 +2,14 @@
 namespace wiperawa\gallery\widgets;
 
 use yii;
-use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\base\Widget;
+use yii\helpers\Html;
 use kartik\file\FileInput;
 use wiperawa\gallery\assets\GalleryAsset;
 use wiperawa\gallery\assets\PicaAsset;
 
-class Gallery extends \yii\base\Widget
+class Gallery extends Widget
 {
     public $model = null;
     public $previewSize = '140x140';
@@ -53,10 +54,14 @@ class Gallery extends \yii\base\Widget
                 $image = $this->model->getImage();
                 $img = $this->getImagePreview($image);
                 $params = $this->getParams($image->id);
-
             }
 
-            return $label . '<br style="clear: both;" />' . Html::tag('div', $img, $params) . '<br style="clear: both;" />' . $this->getFileInput();
+            return (
+                $label . '<br style="clear: both;" />' .
+                Html::tag('div', $img, $params) .
+                '<br style="clear: both;" />' .
+                $this->getFileInput()
+            );
         }
 
         if (  $this->model->hasImage() ){
@@ -125,8 +130,12 @@ class Gallery extends \yii\base\Widget
     {
         $size = (explode('x', $this->previewSize));
 
-        $delete = Html::a("<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>", '#', ['data-action' => Url::toRoute([$this->action_delete, 'id' => $image->id]), 'class' => 'delete']);
-        $crop = Html::a($this->getParamsIconCrop($image->id), false, ['class' => 'crop']);
+        $delete = Html::a(
+            "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>",
+            '#',
+            ['data-action' => Url::toRoute([$this->action_delete, 'id' => $image->id]), 'class' => 'btn btn-sm btn-danger delete']
+        );
+        $crop = Html::a($this->getParamsIconCrop($image->id), false, ['class' => 'btn btn-sm btn-info crop']);
         $write = '';
         if (!$this->disable_edit) {
     	    $write = Html::a(
@@ -134,7 +143,7 @@ class Gallery extends \yii\base\Widget
                 '#',
                 [
                     'data-action' => Url::toRoute([$this->action_edit, 'id' => $image->id]),
-                    'class' => 'write'
+                    'class' => 'btn btn-sm btn-success write'
                 ]
             );
         }
@@ -156,7 +165,10 @@ class Gallery extends \yii\base\Widget
         
         $a = Html::a($img, $image->getUrl());
 	
-	$actions_div = "<div class='wiperawa-image-actions'>".((!$this->disable_edit)?"<div class='btn btn-default btn-xs'>".$write."</div>":'')."<div class='btn btn-info btn-xs'>".$crop."</div>"."<div class='btn btn-danger btn-xs'>".$delete."</div></div>";
+	$actions_div = "<div class='wiperawa-image-actions'>".
+        ((!$this->disable_edit)?$write:'').
+        $crop.$delete.
+        "</div>";
 	
         return $img.$main_selected_div.$actions_div;
     }

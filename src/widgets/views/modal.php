@@ -7,7 +7,7 @@
                 <h4 class="modal-title"><?=yii::t('gallery', 'Edit image');?></h4>
             </div>
             <div class="modal-body noctua-gallery-form">
-                ...
+
             </div>
         </div>
     </div>

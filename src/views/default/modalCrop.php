@@ -2,6 +2,11 @@
 
 use yii\helpers\Url;
 
+/**
+ * @var $model \wiperawa\gallery\models\Image
+ * @var $this yii\web\View
+ */
+
 ?>
 
 <div class="modal fade" id="wiperawa-gallery-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -10,7 +15,7 @@ use yii\helpers\Url;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Обрезка изображения</h4>
+                <h4 class="modal-title"><?=Yii::t('gallery', 'Crop Image')?>'</h4>
             </div>
             <div class="modal-body crop-modal-body">
                 <img src="<?= $model->getUrl() ?>" width="100%" id="cropbox"/>
@@ -35,7 +40,7 @@ use yii\helpers\Url;
                         <span class="fa fa-crop"></span>
                     </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
-                        <?=Yii::t('gallery','Cancel')?>
+                        <?=Yii::t('gallery', 'Cancel')?>
                     </button>
                     <div class="preloadr-crop"></div>
                 </div>
