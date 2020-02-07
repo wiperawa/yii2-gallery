@@ -167,7 +167,7 @@ Additionally, if you set ResizeImage, maxImageHeight or maxImageWidth (if set on
 image will be resized CLIENT side (in browser). Userful thing, so dont overload the server. 
  (For more details check our [kartik/file-input](https://plugins.krajee.com/file-input/plugin-options#resizeImage)
 
-Finally, you can set your own icons. (iconDelete, iconEdit, IconCrop). default is glyphicons.
+Finally, you can set your own icons if you use different icons framework (iconDelete, iconEdit, IconCrop). default is glyphicons.
 ```php
 
 <?=\wiperawa\gallery\widgets\Gallery::widget(
@@ -179,10 +179,10 @@ Finally, you can set your own icons. (iconDelete, iconEdit, IconCrop). default i
             'uploadUrl' => Url::to('/your/upload/action'),
             'maxFileCount' => 20,
           //'maxFileSize' => 5120,
-          //'resizeImage' => true, //Если нужно резайзить картинку на клиенте
-          //'maxImageWidth' => 1760, //Максимальная ширина
-          //'maxImageHeight' => 1080 //Максимальная высота
-          //Можете указать свои иконки для кнопок, например если используете bootstrap4
+          //'resizeImage' => true, //Set to true if need client-side resizing
+          //'maxImageWidth' => 1760, //Max width
+          //'maxImageHeight' => 1080 //Max height
+          //Can set your own icons for buttons, for example if you use bootstrap4
           //'iconDelete' => '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>'
           //'iconCrop' => ...
           //'iconEdit' => ...  
@@ -199,8 +199,8 @@ Finally, you can set your own icons. (iconDelete, iconEdit, IconCrop). default i
     'previewHeight' => '150px',
     'informationBlock' => false,
     'otherInputsSettings' => [
-        'you-photo' => ['label' => 'Ваше фото', 'required' => true],
-        'our-work' => ['label' => 'Наша работа', 'required' => true],
+        'you-photo' => ['label' => 'Your Photo', 'required' => true],
+        'our-work' => ['label' => 'Your Work', 'required' => true],
     ],
 ]) ?>
 
