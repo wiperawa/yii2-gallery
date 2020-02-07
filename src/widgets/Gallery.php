@@ -140,13 +140,13 @@ class Gallery extends Widget
         $delete = Html::a(
             $this->iconDelete,
             '#',
-            ['data-action' => Url::toRoute([$this->action_delete, 'id' => $image->id]), 'class' => 'btn btn-sm btn-danger delete']
+            ['data-action' => Url::toRoute([$this->action_delete, 'id' => $image->id]), 'class' => 'btn btn-sm btn-danger wiperawa-gallery-delete']
         );
         $crop = Html::a(
             $this->iconCrop,
             Url::to([$this->action_crop, 'id' => $image->id]),
             [
-                'class' => 'btn btn-sm btn-info crop',
+                'class' => 'btn btn-sm btn-info wiperawa-gallery-crop',
                 'data-role' => 'show-modal-crop-icon'
             ]
         );
@@ -157,7 +157,7 @@ class Gallery extends Widget
                 '#',
                 [
                     'data-action' => Url::toRoute([$this->action_edit, 'id' => $image->id]),
-                    'class' => 'btn btn-sm btn-success write'
+                    'class' => 'btn btn-sm btn-success wiperawa-gallery-write'
                 ]
             );
         }
@@ -184,14 +184,4 @@ class Gallery extends Widget
         return $img.$main_selected_div.$actions_div;
     }
 
-    private function getParamsIconCrop($id)
-    {
-        $params = [
-            'class' => 'glyphicon glyphicon-retweet',
-            'data-role' => 'show-modal-crop-icon',
-            'data-action' => Url::to([$this->action_crop, 'id' => $id]),
-        ];
-
-        return Html::tag('span', null, $params);
-    }
 }

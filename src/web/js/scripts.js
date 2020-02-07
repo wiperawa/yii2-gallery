@@ -4,8 +4,8 @@ if (!!!wiperawa) {
 
 wiperawa.gallery = {
     init: function () {
-        $('.wiperawa-gallery-item a.delete').on('click', this.deleteProductImage);
-        $('.wiperawa-gallery-item a.write').on('click', this.callModal);
+        $('.wiperawa-gallery-item a.wiperawa-gallery-delete').on('click', this.deleteProductImage);
+        $('.wiperawa-gallery-item a.wiperawa-gallery-write').on('click', this.callModal);
         $('.wiperawa-gallery img').on('click', this.setMainProductImage);
         $('.noctua-gallery-form').on('submit', this.writeProductImage);
     },

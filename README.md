@@ -187,7 +187,7 @@ Finally, you can set your own icons if you use different icons framework (iconDe
           //'iconCrop' => ...
           //'iconEdit' => ...  
         ],
-    
+   
     ]
 ); ?>
 

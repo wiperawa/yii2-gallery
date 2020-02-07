@@ -1,7 +1,7 @@
 {
     "name": "wiperawa/yii2-gallery",
-    "description": "Модуль позволяет загружать виджетом картинки",
-    "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "wiperawa"],
+    "description": "multiple Image galleries module",
+    "keywords": ["yii2", "module", "images", "behavior", "widget", "gallery", "yii2-images"],
     "homepage": "https://github.com/wiperawa/yii2-gallery",
     "type": "yii2-extension",
     "license": "Apache-2.0",
