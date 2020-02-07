@@ -19,7 +19,6 @@ class AttachImages extends Behavior
     public $modelClass = null;
     public $uploadsPath = '';
     public $mode = 'gallery';
-    public $webUploadsPath = '/uploads';
     public $allowExtensions = ['jpg', 'jpeg', 'png', 'gif'];
     public $inputName = 'galleryFiles';
     private $doResetImages = true;
@@ -27,6 +26,11 @@ class AttachImages extends Behavior
     public $maxWidth = false;
     public $maxHeight = false;
     public $galleryId = false;
+
+    public $galleryBeforeDelete = false;
+    public $galleryBeforeInsert = false;
+    public $galleryBeforeSetMain = false;
+    public $galleryCheckRightsCallback = false;
 
     const STATUS_SUCCESS = 0;
 
@@ -215,6 +219,7 @@ class AttachImages extends Behavior
         $image->itemId = $this->owner->id;
         $image->filePath = $pictureSubDir . '/' . $pictureFileName;
         $image->modelName = $this->getModule()->getShortClass($this->owner);
+        $image->fullModelName = get_class($this->owner);
         $image->urlAlias = $this->getAlias($image);
         $image->gallery_id = $galleryId;
 

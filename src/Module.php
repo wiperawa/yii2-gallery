@@ -15,9 +15,6 @@ class Module extends \yii\base\Module
     public $waterMark = false;
     public $waterMarkPosition = false;
     public $access = [];
-    public $namespaceOfRelatedModel = '';
-    public $customFindModelFunction = false;
-    public $customCheckRightsFunc = false;
 
     public function getImage($item, $dirtyAlias)
     {

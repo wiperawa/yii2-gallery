@@ -1,51 +1,45 @@
 Yii2-gallery
 ==========
-Это модуль был создан, чтобы дать возможность быстро загружать в админке картинки, добавлять заголовок, описание, альтернативный текст, а также задать положение (чем выше значение тем выше в списке будет изображение) и главное изображение для галереи.
-Так же есть возможность вызывать ваши callback функции при добавлении, удалении, установке изображения в качестве главного.
-Возможность пережать изображение как на стороне сервера так и на клиенте. 
+This module was done to allow you quickly upload pictures in admin panel or frontend member area,
+add image props like title, alt, as well as set position, and main image of the gallery.
+Features:
+1. Ajax files upload
+2. Server-side resizing
+3. Client-side resizing
+4. Resizing images by alias, with storing resied images in cache
+5. related-model events calling on image insert, image delete, etc.
+6. editing image: resize, crop, rotate.
 
-Установка
+Install
 ---------------------------------
-Выполнить команду
+Either run
 
 ```
 php composer require wiperawa/yii2-gallery "@dev"
 ```
 
-Или добавить в composer.json
+or add this line to  composer.json of your project
 
 ```
 "wiperawa/yii2-gallery": "@dev",
 ```
 
-И выполнить
+And run
 
 ```
 php composer update
 ```
 
-Миграция
+After that run migration to create neccesary table
 
 ```
 php yii migrate/up --migrationPath=@vendor/wiperawa/yii2-gallery/src/migrations
 ```
 
-Подключение и настройка
+Setup and Usage
 ---------------------------------
-В конфигурационный файл приложения добавить модуль gallery
-Если нужно выполнять callback функции при удалении, дибовлении картинки, то Укажите namespaceOfRelatedModel 
-Например ,если основная модель, для которой производится установка галереи, это абстрактный Object , находящийся в \common\models, то namespaceOfRelatedModel будет '\\common\\models\\'.
-Имя класса будет связано с каждым обьектом Image, записывается в поле modelName.
+Add module 'gallery' in your config file of app. (usually main.php)
 
-Теперь достаточно всего-лишь определить у основной модели след. методы:
-public function galeryBeforeDelete(Image $img);
-Если ваш метод вернет false - картинка НЕ УДАЛИТСЯ!
-
-public function galeryBeforeInsert(Image $img); (Выполнится только если это новая картинка)
-
-public function galeryBeforeSetMain(Image $img);
-
-В целом, не знаю правильно ли это. Но для меня это решение показалось самым простым из возможных.
 
 ```php
     'modules' => [
@@ -53,16 +47,15 @@ public function galeryBeforeSetMain(Image $img);
             'class' => 'wiperawa\gallery\Module',
             'imagesStorePath' => dirname(dirname(__DIR__)).'/frontend/web/images/store', //path to origin images
             'imagesCachePath' => dirname(dirname(__DIR__)).'/frontend/web/images/cache', //path to resized copies
-            'graphicsLibrary' => 'GD',
+            'graphicsLibrary' => 'GD', //Can be GD or Шьфпшсл
             'placeHolderPath' => '@webroot/images/placeHolder.png',
-            'adminRoles' => ['administrator', 'admin', 'superadmin'],
-            'namespaceOfRelatedModel' => '' //Оставьте пустым, если callback-и не нужны
+            'access' => ['@'], //roles list who have access to module, remove if dont need it.  
         ],
         //...
     ]
 ```
 
-К модели, к которой необходимо аттачить загружаемые картинки, добавляем поведение:
+Attach Behavior to the Model to which you want to attach the downloaded images:
 
 ```php
     function behaviors()
@@ -72,19 +65,30 @@ public function galeryBeforeSetMain(Image $img);
                 'class' => 'wiperawa\gallery\behaviors\AttachImages',
                 'mode' => 'gallery',
                 'quality' => 60,
-                'maxWidth' => 1920, //Задается, если нужно пережать картинку после аплоада по ширине или высоте 
+                'maxWidth' => 1920, //Set if need to resize image by height or width . NOTE that this take action only for server-size resizing, better to use client-side. see widget declaration below.
                 'maxHeight' => 1080,
-                'galleryId' => 'picture'	//here can be your model name for example
+                'galleryId' => 'picture',	//here can be your model name for example
+                'allowExtensions' => ['jpg', 'jpeg', 'png', 'gif'],
+                'galleryBeforeDelete' => 'galleryBeforeDeleteEvt', // main model method name to fire before Image delete  
+                'galleryBeforeInsert' => 'galleryBeforeInsertEvt', // main model method name to fire before Image  insert  
+                'galleryBeforeSetMain' => 'galleryBeforeSetMain', // main model method name to fire before Image setMain event  
+                'galleryCheckRightsCallback' => 'galleryCheckRightsCallback', // Main Model method that calls from defaultController before any image manipulation. if return false no action performed
             ],
         ];
     }
 ```
 
-*mode - тип загрузки. gallery - массовая загрузка, single - одиночное поле, если вам необходимо сжатие то установите quality (0 - 100) где  0 - максимальное сжатие, 100 - минимальное сжатие. galleryId - идентификатор галереи, если у вас возникает конфликт при одинаковых имён класса
+mode - upload type: gallery - mass upload, single - single image
+ quality (0 - 100) - compression quality,  0 - max compression, 100 - max quality. 
+ galleryId - identificatior of your gallery. can be model name for example
+ galleryBeforeDelete - name of method of related model
+ galleryBeforeInsert - name of method of related model
+ galleryBeforeSetMain - name of method of related model
+ galleryCheckRightsCallback - if set, will fire on each image operation, like crop, change, delete, etc. if you return false here, operation will cancelled
+ It useful for frontend, for example if member should have ability to manupulate only theirs images, we can check owner id with logged member id 
 
-Использование
+Behavior usage
 ---------------------------------
-Использовать можно также, как напрямую:
 
 ```php
 $images = $model->getImages();
@@ -112,23 +116,25 @@ foreach($images as $img) {
 }
 ```
 
-Виджеты
+Widgets
 ---------------------------------
-Загрузка картинок осуществляется через виджет. Добавьте в _form.php внутри формы CRUDа вашей модели.
-Виджету передаются следующие параметры:
-model => Модель к которой будут привязаны картинки, по умолчанию null;
-previewSize => размер превью загруженных изображений, по умолчанию '140x140';
-label => метка для виджета по умолчанию 'Изображение';
-fileInputPluginLoading => нужно ли показывать индикатор загрузки прогресса в месте ввода, по умолчанию true;
-fileInputPluginOptions => массив свойств виджета [kartik/file/fileInput](http://demos.krajee.com/widget-details/fileinput), по умолчанию [];
+
+Images are downloaded through the widget. Add to the _form.php inside the CRUD form of your model.
+The following parameters are passed to the widget:
+model => The model to which the pictures will be attached, by default null;
+previewSize => size of the preview of the downloaded images, default is '140x140';
+label => label, default 'Image';
+fileInputPluginLoading => whether it is necessary to show the progress loading indicator at the input location, by default true;
+
+fileInputPluginOptions => properties of widget [kartik/file/fileInput](http://demos.krajee.com/widget-details/fileinput),defaults to [];
 
 
-Не забудьте
+Dont forget to add multipart/form-data option for form, if you use regular upload
 ```php
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 ```
-для формы.
-Если нужен ajax upload, укажите uploadUrl для fileInputPluginOptions
+
+fi you want to use ajax upload, set uploadUrl in fileInputPluginOptions
 ```php
 ...
     'fileInputPluginOptions' => [
@@ -136,10 +142,11 @@ fileInputPluginOptions => массив свойств виджета [kartik/fil
     ]
 ...
 ```
-в этом случае, нужно создать экшн контроллера, который будет загружать файлы и аттачить их к модели, например:
+If this case you need to create action in your controller, that will attach uploaded images to your model, like follow:
+
 ```php
 public function actionUploadPhoto($id) {
-//$model - наша модель с добавленным поведением
+//$model - Our model with behavior attached
         $model = $this->findModel($id);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -156,10 +163,11 @@ public function actionUploadPhoto($id) {
     }
 ```
 
-Так же, если у казать  ResizeImage, maxImageHeight, maxImageWidth  то картина пережмется на стороне клиента. 
-(подробнее в описании виджета [kartik/file-input](https://plugins.krajee.com/file-input/plugin-options#resizeImage)
+Additionally, if you set ResizeImage, maxImageHeight or maxImageWidth (if set one of theese, image will be resized proportionally ),
+image will be resized CLIENT side (in browser). Userful thing, so dont overload the server. 
+ (For more details check our [kartik/file-input](https://plugins.krajee.com/file-input/plugin-options#resizeImage)
 
-Задайте свои иконки для кнопок, если нужно. (iconDelete, iconEdit, IconCrop)
+Finally, you can set your own icons. (iconDelete, iconEdit, IconCrop). default is glyphicons.
 ```php
 
 <?=\wiperawa\gallery\widgets\Gallery::widget(

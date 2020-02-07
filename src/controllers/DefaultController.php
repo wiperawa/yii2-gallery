@@ -1,4 +1,5 @@
 <?php
+
 namespace wiperawa\gallery\controllers;
 
 use yii;
@@ -14,9 +15,9 @@ use wiperawa\gallery\models\Image;
  */
 class DefaultController extends Controller
 {
-        public function behaviors()
+    public function behaviors()
     {
-        $behaviours =  [
+        $behaviours = [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -24,7 +25,7 @@ class DefaultController extends Controller
                 ],
             ]
         ];
-        if (!empty($this->module->access) ) {
+        if (!empty($this->module->access)) {
             $behaviours = array_merge($behaviours, [
                 'access' => [
                     'class' => AccessControl::className(),
@@ -59,7 +60,7 @@ class DefaultController extends Controller
         $model = Image::findOne($dataPost['id']);
         $path = $model->getPathToOrigin();
 
-        $this->createRotateImage($path, $degrees, 100) ;
+        $this->createRotateImage($path, $degrees, 100);
         $model->clearCache();
         $responseData = [
             'error' => false,
@@ -94,13 +95,15 @@ class DefaultController extends Controller
 
         switch ($type) {
             case 'jpeg':
-            case 'jpg': {
+            case 'jpg':
+            {
                 $resource = imagecreatefromjpeg($path);
                 $rotate = imagerotate($resource, $degrees, 0);
                 $result = imagejpeg($rotate, $path, $quality);
                 break;
             }
-            case 'png': {
+            case 'png':
+            {
                 $resource = imagecreatefrompng($path);
                 imagesavealpha($resource, true);
                 $rotate = imagerotate($resource, $degrees, 0);
@@ -109,7 +112,8 @@ class DefaultController extends Controller
                 break;
 
             }
-            case 'gif': {
+            case 'gif':
+            {
                 $resource = imagecreatefromgif($path);
                 $rotate = imagerotate($resource, $degrees, 0);
                 $result = imagegif($rotate, $path);
@@ -129,13 +133,15 @@ class DefaultController extends Controller
 
         switch ($type) {
             case 'jpeg':
-            case 'jpg': {
+            case 'jpg':
+            {
                 $resource = imagecreatefromjpeg($path);
                 $canvas = $this->createCanvasUnderImage($settings, $resource);
                 $result = imagejpeg($canvas, $path, $quality);
                 break;
             }
-            case 'png': {
+            case 'png':
+            {
                 $resource = imagecreatefrompng($path);
                 imagesavealpha($resource, true);
                 $canvas = $this->createCanvasUnderImage($settings, $resource);
@@ -143,7 +149,8 @@ class DefaultController extends Controller
                 $result = imagepng($canvas, $path, $quality);
                 break;
             }
-            case 'gif': {
+            case 'gif':
+            {
                 $resource = imagecreatefromgif($path);
                 $result = imagegif($resource, $path);
                 break;
@@ -157,7 +164,7 @@ class DefaultController extends Controller
 
     private function createCanvasUnderImage($settings, $resource)
     {
-        $canvas = ImageCreateTrueColor( $settings['widthImageInPixel'], $settings['heightImageInPixel'] );
+        $canvas = ImageCreateTrueColor($settings['widthImageInPixel'], $settings['heightImageInPixel']);
         imagecopyresampled(
             $canvas,
             $resource,
@@ -174,11 +181,11 @@ class DefaultController extends Controller
         return $canvas;
     }
 
-    private function  getSizesSidesImage($image)
+    private function getSizesSidesImage($image)
     {
         $imageInfo = getimagesize($image);
 
-        if($imageInfo) {
+        if ($imageInfo) {
             return [
                 'width' => $imageInfo[0],
                 'height' => $imageInfo[1],
@@ -209,11 +216,11 @@ class DefaultController extends Controller
             'marginTopInPixel' => $marginTopInPixel,
         ];
     }
-            
+
     public function actionModal($id)
     {
         $model = $this->findImage($id);
-        
+
         return $this->renderPartial('modalAdd', [
             'model' => $model,
             'post' => yii::$app->request->post(),
@@ -223,69 +230,62 @@ class DefaultController extends Controller
     public function actionWrite($id)
     {
         $model = $this->findImage($id);
-        
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        if ( $model->load(Yii::$app->request->post()) && $model->save() ) {
             return $this->returnJson('success');
         }
-        
+
         return $this->returnJson('false', 'Model or Image not found');
     }
 
     public function actionDelete($id)
     {
         $model = $this->findImage($id);
-	    if (!$model->callRelatedModelEvent(Image::GALLERY_EVENT_BEFORE_DELETE) ) {
-	        return $this->returnJson('error','Callback returned False');
+        if (!$model->delete()) {
+            return $this->returnJson('error', 'Callback returned False');
         }
-        //var_dump(yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath);
-        if (file_exists(yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath) ) { 
-            unlink (yii::$app->getModule('gallery')->imagesStorePath."/".$model->filePath);
+
+        if (file_exists(yii::$app->getModule('gallery')->imagesStorePath . "/" . $model->filePath)) {
+            unlink(yii::$app->getModule('gallery')->imagesStorePath . "/" . $model->filePath);
         }
-        
-        $dir_path = dirname(yii::$app->getModule('gallery')->imagesCachePath."/".$model->filePath);
-        foreach (glob($dir_path.'/'.$model->urlAlias.'*.*') as $filename) {
-    	    if (file_exists($filename) ) {
-		unlink($filename);
-	    }
-	}
-        
-        $model->delete();
-        
+
+        $dir_path = dirname(yii::$app->getModule('gallery')->imagesCachePath . "/" . $model->filePath);
+        foreach (glob($dir_path . '/' . $model->urlAlias . '*.*') as $filename) {
+            if (file_exists($filename)) {
+                unlink($filename);
+            }
+        }
+
         return $this->returnJson('success');
     }
-    
+
     public function actionSetmain($id)
     {
         $model = $this->findImage($id);
         $model->setMain(1);
         $other_images = Image::find()->where(['itemId' => $model->itemId])->all();
-        foreach($other_images as $image ) {
-    	    $image->setMain(0);
-    	    $image->save();
+        foreach ($other_images as $image) {
+            $image->setMain(0);
+            $image->save();
         }
         $model->save(false);
         return $this->returnJson('success');
     }
-    
+
     private function returnJson($result, $error = false)
     {
         $json = ['result' => $result, 'error' => $error];
-        
+
         return Json::encode($json);
     }
 
     protected function findImage($id)
     {
-	$our_module = $this->module;
-	if (is_callable($our_module->customCheckRightsFunc) ) {
-	    if (!call_user_func($our_module->customCheckRightsFunc,$id) ) {
-		throw new NotFoundHttpException("Image dont found.");
-	    }
-	}
-        if(!$model = Image::findOne($id)) {
+
+        if (!($model = Image::findOne($id)) || !$model->callRelatedModelEvent(Image::GALLERY_EVENT_CHECK_RIGHTS)) {
             throw new NotFoundHttpException("Image dont found.");
         }
-        
+
         return $model;
     }
 }
