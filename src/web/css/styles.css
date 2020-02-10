@@ -3,6 +3,7 @@
     text-align: center;
     margin-top: 6px;
     margin-bottom: 4px;
+    position: sticky;
 }
 
 .wiperawa-image-actions > .btn {
