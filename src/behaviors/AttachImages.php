@@ -170,8 +170,13 @@ class AttachImages extends Behavior
 
     public function attachImage($absolutePath, $isMain = false)
     {
-        if (!preg_match('#http#', $absolutePath)) {
-            if (!file_exists($absolutePath)) {
+	$is_http = false;
+        if (preg_match('#http#', $absolutePath)) {
+            $is_http = true;
+        }
+        
+        if (!$is_http)  {
+    	    if (!file_exists($absolutePath)) {
                 throw new \Exception('File not exist! :' . $absolutePath);
             }
         }
@@ -207,7 +212,9 @@ class AttachImages extends Behavior
             throw new \Exception('Cant copy file! ' . $absolutePath . ' to ' . $newAbsolutePath);
         }
 
-        unlink($absolutePath);
+        if (!$is_http) { 
+    	    unlink($absolutePath);
+    	}
 
         if ($this->modelClass === null) {
             $image = new models\Image;
