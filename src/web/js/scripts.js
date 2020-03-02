@@ -138,7 +138,9 @@ wiperawa.frontendGallery = {
             },
             success: function (response) {
                 if (!response.error) {
-                    $('#cropbox').attr('src', response.result+'&t=t'+ Math.random(5));
+                    let url = response.result+'&t=t'+ Math.random(5);
+                    $('#cropbox').attr('src', url );
+                    $('.wiperawa-gallery-item[data-image=\''+id+'\'] > img').attr('src',url);
                 }
                 $('.crop-modal-body').css('opacity', 1);
                 $('.preloader-crop').removeClass('loading-crop');
@@ -196,7 +198,9 @@ wiperawa.frontendGallery = {
                 },
                 success: function (response) {
                     if (!response.error) {
-                        $('#cropbox').attr('src', response.result+'&t=t'+ Math.random(5));
+                        let url = response.result+'&t=t'+ Math.random(5);
+                        $('#cropbox').attr('src', url);
+                        $('.wiperawa-gallery-item[data-image=\''+id+'\'] > img').attr('src',url);
                     }
                     $('img#cropbox').imgAreaSelect({
                         hide: true,

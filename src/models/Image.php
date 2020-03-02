@@ -76,6 +76,8 @@ class Image extends ActiveRecord
 
         }
 
+        $this->urlAlias = $this->generateUrlAlias();
+        $this->save(false);
         return true;
     }
 
@@ -290,6 +292,9 @@ class Image extends ActiveRecord
         return $image;
     }
 
+    public function generateUrlAlias() {
+        return substr(md5(microtime()), 0, 10);
+    }
 
     public function afterSave($insert, $changedAttributes)
     {

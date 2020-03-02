@@ -227,7 +227,7 @@ class AttachImages extends Behavior
         $image->filePath = $pictureSubDir . '/' . $pictureFileName;
         $image->modelName = $this->getModule()->getShortClass($this->owner);
         $image->fullModelName = get_class($this->owner);
-        $image->urlAlias = $this->getAlias($image);
+        $image->urlAlias = $image->generateUrlAlias();
         $image->gallery_id = $galleryId;
 
         if (!$image->save()) {
