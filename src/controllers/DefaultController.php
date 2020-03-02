@@ -62,12 +62,8 @@ class DefaultController extends Controller
 
         $this->createRotateImage($path, $degrees, 100);
         $model->clearCache();
-        $responseData = [
-            'error' => false,
-            'response' => $model->getUrl(),
-        ];
 
-        return yii\helpers\Json::encode($responseData);
+        return $this->returnJson($model->getUrl());
     }
 
     public function actionCropImage()
@@ -81,12 +77,8 @@ class DefaultController extends Controller
         $cropImage = $this->createCropImage($path, $settings, 100);
 
         $model->clearCache();
-        $responseData = [
-            'error' => false,
-            'response' => $model->getUrl(),
-        ];
 
-        return yii\helpers\Json::encode($responseData);
+        return $this->returnJson($model->getUrl());
     }
 
     private function createRotateImage($path, $degrees, $quality)

@@ -170,14 +170,14 @@ class AttachImages extends Behavior
 
     public function attachImage($absolutePath, $isMain = false)
     {
-	$is_http = false;
+	    $is_http = false;
         if (preg_match('#http#', $absolutePath)) {
             $is_http = true;
         }
         
         if (!$is_http)  {
     	    if (!file_exists($absolutePath)) {
-                throw new \Exception('File not exist! :' . $absolutePath);
+                throw new \Exception('File doesnt exist! :' . $absolutePath);
             }
         }
 

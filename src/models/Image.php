@@ -189,9 +189,11 @@ class Image extends ActiveRecord
         return $newSizes;
     }
 
+    
+
     public function createVersion($imagePath, $sizeString = false)
     {
-        if (strlen($this->urlAlias) < 1) {
+        if (! $this->urlAlias ) {
             throw new \Exception('Image without urlAlias!');
         }
 
