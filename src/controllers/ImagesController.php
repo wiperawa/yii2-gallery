@@ -41,6 +41,8 @@ class ImagesController extends Controller
 
     protected function getImage($item, $dirtyAlias) {
 
+        $dirtyAlias = preg_replace('/[^-A-Za-z0-9_.]/', '', $dirtyAlias);
+
         $dotParts = explode('.', $dirtyAlias);
 
         if(!isset($dotParts[1])){
@@ -49,6 +51,7 @@ class ImagesController extends Controller
 
         $dirtyAlias = $dotParts[0];
         $alias = isset(explode('_', $dirtyAlias)[0]) ? explode('_', $dirtyAlias)[0] : false;
+
         $image = $this->getModule()->getImage($item, $alias);
 
         if($image->getExtension() != $dotParts[1]){

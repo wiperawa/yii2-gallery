@@ -12,5 +12,6 @@ return [
     'Is Main' => 'Main Image',
     'Model Name' => 'Model Name',
     'Url Alias' => 'Url Alias',
-    'Crop Image' => 'Crop Image'
+    'Crop Image' => 'Crop Image',
+    'Crop & Save' => 'Crop & Save'
 ];

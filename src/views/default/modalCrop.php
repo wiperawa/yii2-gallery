@@ -38,12 +38,14 @@ use yii\helpers\Url;
                     <button type="button" class="btn btn-primary" data-role="send-crop-image"
                             data-url="<?= Url::to(['/gallery/default/crop-image']) ?>">
                         <span class="fa fa-crop"></span>
+                        <?=Yii::t('gallery','Crop  & Save')?>
                     </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
                         <?=Yii::t('gallery', 'Cancel')?>
                     </button>
-                    <div class="preloadr-crop"></div>
                 </div>
+                <div class="preloadr-crop"></div>
+
             </div>
         </div>
     </div>
