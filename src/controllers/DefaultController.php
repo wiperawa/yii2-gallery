@@ -58,12 +58,11 @@ class DefaultController extends Controller
         $dataPost = Yii::$app->request->post();
         $degrees = $dataPost['degrees'];
         $model = Image::findOne($dataPost['id']);
-        $model->clearCache();
 
         $path = $model->getPathToOrigin();
 
         $this->createRotateImage($path, $degrees, 100);
-
+        $model->clearCache();
         return $this->returnJson($model->getUrl());
     }
 
@@ -76,7 +75,9 @@ class DefaultController extends Controller
 
         $sizesOriginalImage = $this->getSizesSidesImage($model->getPath());
         $settings = $this->getProportions($dataPost, $sizesOriginalImage['width'], $sizesOriginalImage['height']);
-        $cropImage = $this->createCropImage($path, $settings, 100);
+        $this->createCropImage($path, $settings, 100);
+
+        $model->clearCache();
 
         return $this->returnJson($model->getUrl());
     }
