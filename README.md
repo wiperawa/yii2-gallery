@@ -186,6 +186,7 @@ Finally, you can set your own icons if you use different icons framework (iconDe
           //'iconDelete' => '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>'
           //'iconCrop' => ...
           //'iconEdit' => ...  
+          //'selectedImgLabel' => 'Default'
         ],
    
     ]

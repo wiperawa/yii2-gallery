@@ -13,10 +13,12 @@ class Gallery extends Widget
 {
     public $model = null;
     public $previewSize = '140x140';
+    public $options = [];
     public $fileInputPluginLoading = true;
     public $fileInputPluginOptions = [];
     public $label = null;
     public $disableEdit = false;
+    public $selectedImgLabel = 'Default';
 
     public $iconDelete = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
     public $iconCrop = '<span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>';
@@ -108,12 +110,14 @@ class Gallery extends Widget
 
     private function getFileInput()
     {
-        return FileInput::widget([
-            'name' => $this->model->getInputName() . '[]',
-            'options' => [
+	$_def_options = [
                 'accept' => 'image/*',
                 'multiple' => $this->model->getGalleryMode() == 'gallery',
-            ],
+	];
+	
+        return FileInput::widget([
+            'name' => $this->model->getInputName() . '[]',
+            'options' => array_merge($this->options,$_def_options),
 	    'resizeImages' => ( !empty($this->fileInputPluginOptions['resizeImage']) ),
 
             'pluginOptions' => $this->fileInputPluginOptions,
@@ -175,7 +179,7 @@ class Gallery extends Widget
         } else {
     	    $visibility = '';
         }
-        $main_selected_div = "<div class='wiperawa-main-span' ".$visibility." ><div class='wiperawa-main-span-text'>Main</div></div>";
+        $main_selected_div = "<div class='wiperawa-main-span' ".$visibility." ><div class='wiperawa-main-span-text'>".Yii::t('gallery',$this->selectedImgLabel)."</div></div>";
 
 	    $actions_div = "<div class='wiperawa-image-actions'>".
             $write. $crop . $delete.
