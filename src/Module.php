@@ -10,6 +10,7 @@ class Module extends \yii\base\Module
 {
     public $imagesStorePath = '@app/web/store';
     public $imagesCachePath = '@app/web/imgCache';
+    public $imagesWebPath = '/imgCache';
     public $graphicsLibrary = 'GD'; //Can be GD or Imagick
     public $placeHolderPath;
     public $waterMark = false;
@@ -51,6 +52,10 @@ class Module extends \yii\base\Module
     {
         return Yii::getAlias($this->imagesCachePath);
 
+    }
+
+    public function getWebPath() {
+        return $this->imagesWebPath;
     }
 
     public function getModelSubDir($model)

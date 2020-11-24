@@ -90,18 +90,22 @@ class Image extends ActiveRecord
     public function getUrl($size = false)
     {
         $urlSize = ($size) ? '_' . $size : '';
-        $url = Url::toRoute([
-            '/' . $this->getModule()->id . '/images/image-by-item-and-alias',
-            'item' => $this->modelName . $this->itemId,
-            'dirtyAlias' => $this->urlAlias . $urlSize . '.' . $this->getExtension()
-        ]);
 
+        $origin = $this->getPath($size);
+
+        $url = Yii::$app->urlManager->createAbsoluteUrl(
+            $this->getModule()->getWebPath(). '/'.
+            $sub = $this->getSubDir(). '/'.
+            $this->urlAlias.
+            $urlSize . '.'.
+            pathinfo($origin, PATHINFO_EXTENSION));
         return $url;
     }
 
     public function getUrlToOrigin($size = false)
     {
         $urlSize = ($size) ? '_' . $size : '';
+
         $url = Url::toRoute([
             '/' . $this->getModule()->id . '/images/image-by-alias-origin',
             'item' => $this->modelName . $this->itemId,
@@ -120,7 +124,7 @@ class Image extends ActiveRecord
         $origin = $this->getPathToOrigin();
 
         $filePath = $base . DIRECTORY_SEPARATOR .
-            $sub . DIRECTORY_SEPARATOR . $this->urlAlias . $urlSize . '.' . pathinfo($origin, PATHINFO_EXTENSION);;
+            $sub . DIRECTORY_SEPARATOR . $this->urlAlias . $urlSize . '.' . pathinfo($origin, PATHINFO_EXTENSION);
         if (!file_exists($filePath)) {
             $this->createVersion($origin, $size);
 
